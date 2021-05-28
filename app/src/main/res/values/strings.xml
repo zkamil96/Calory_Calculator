@@ -1,0 +1,53 @@
+<resources>
+    <!-- Activities names-->
+    <string name="app_name">Calory Calculator</string>
+    <string name="title_activity_favorite_products">Favorite Products</string>
+    <string name="title_activity_history">History</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_statistics">Statistics</string>
+    <string name="title_activity_reset_password">Password Reset</string>
+
+    <string name="hello">Welcome</string>
+    <string name="hello_text">Welcome in calory calculator. If you want to use this application first you need to have account</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+
+    <string name="email_value">Email</string>
+    <string name="password_value">Password</string>
+    <string name="repassword_value">Confirm Password</string>
+    <string name="password_forgot">Do you forgot your password. Click to reset</string>
+
+    <!-- Menu items names -->
+    <string name="profile_item_name">Profile</string>
+    <string name="settings_item_name">Settings</string>
+    <string name="logout">Logout</string>
+    <string name="search_item_name">Search</string>
+    <string name="favorite_item_name">Favorite List</string>
+    <string name="history_item_name">History</string>
+
+    <!-- Preference Titles -->
+    <string name="personal_data_header">Personal Data</string>
+    <string name="reminders_header">Reminders</string>
+
+    <!-- Messages Preferences -->
+    <string name="growth_title">Growth</string>
+    <string name="gender_title">Gender</string>
+    <string name="weight_title">Weight</string>
+    <string name="age_title">Age</string>
+
+    <!-- Sync Preferences -->
+    <string name="water_title">Water Reminder</string>
+    <string name="eat_title">Meals Reminder</string>
+    <string name="physical_activity_title">Physical Activity</string>
+    <string name="destination_title">Destination</string>
+    <string name="save_preference_button_title">Save Settings</string>
+    <string name="lunchtime">Lunchtime</string>
+    <string name="dinner">Dinner</string>
+    <string name="snacks">Snacks</string>
+    <string name="breakfast">Breakfast</string>
+
+</resources>

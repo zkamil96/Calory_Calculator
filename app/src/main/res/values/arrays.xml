@@ -1,0 +1,48 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="genders_entries">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="genders_values">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="activity_entries">
+        <item>Without physical activity</item>
+        <item>Low physical activity</item>
+        <item>Moderate physical activity</item>
+        <item>High physical activity</item>
+        <item>Very high physical activity</item>
+    </string-array>
+
+    <string-array name="activity_values">
+        <item>Without physical activity</item>
+        <item>Low physical activity</item>
+        <item>Moderate physical activity</item>
+        <item>High physical activity</item>
+        <item>Very high physical activity</item>
+    </string-array>
+
+    <string-array name="destination_entries">
+        <item>Get some weight</item>
+        <item>Maintain current weight</item>
+        <item>Lose weight</item>
+    </string-array>
+
+    <string-array name="destination_values">
+        <item>Get weight</item>
+        <item>Maintain current weight</item>
+        <item>Lose weight</item>
+    </string-array>
+
+    <string-array name="meal_entries">
+        <item>breakfast</item>
+        <item>lunchtime</item>
+        <item>snacks</item>
+        <item>dinner</item>
+    </string-array>
+
+</resources>

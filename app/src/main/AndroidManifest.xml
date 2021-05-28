@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.calory_calculator">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Calory_Calculator">
+        <activity android:name=".AccoutHasBeenConfirmed">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="calorycalculator"
+                    android:pathPrefix="/confirmemail"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ConfirmAccount" />
+        <activity android:name=".Insert_Email_To_Reset" />
+        <activity android:name=".Food_list" />
+        <activity android:name=".Reset_password">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="calorycalculator"
+                    android:pathPrefix="/resetpassword"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".History"
+            android:label="@string/title_activity_history"
+            android:parentActivityName=".Statistics" />
+        <activity
+            android:name=".Favorite_products"
+            android:label="@string/title_activity_favorite_products"
+            android:parentActivityName=".Statistics" />
+        <activity
+            android:name=".Search"
+            android:label="@string/title_activity_search"
+            android:parentActivityName=".Statistics" />
+        <activity
+            android:name=".Statistics"
+            android:label="@string/title_activity_statistics" />
+        <activity
+            android:name=".Profile"
+            android:label="@string/title_activity_profile"
+            android:parentActivityName=".Statistics" />
+        <activity
+            android:name=".Login"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".Register"
+            android:label="@string/title_activity_register" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

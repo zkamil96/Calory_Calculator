@@ -1,0 +1,61 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/personal_data_header">
+
+        <ListPreference
+            app:entries="@array/genders_entries"
+            app:entryValues="@array/genders_values"
+            app:key="gender"
+            app:title="@string/gender_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="growth"
+            app:title="@string/growth_title"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="weight"
+            app:title="@string/weight_title"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            app:key="age"
+            app:title="@string/age_title"
+            android:inputType="number"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:entries="@array/activity_entries"
+            app:entryValues="@array/activity_values"
+            app:key="physical_activity"
+            app:title="@string/physical_activity_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:entries="@array/destination_entries"
+            app:entryValues="@array/destination_values"
+            app:key="destination"
+            app:title="@string/destination_title"
+            app:useSimpleSummaryProvider="true" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/reminders_header">
+
+        <SwitchPreferenceCompat
+            app:key="water_reminder"
+            app:title="@string/water_title" />
+
+        <SwitchPreferenceCompat
+            app:key="eat_reminder"
+            app:title="@string/eat_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
+
