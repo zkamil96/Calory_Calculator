@@ -75,8 +75,6 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
-        val tzone = TimeZone.getTimeZone("Europe/Warsaw")
-        TimeZone.setDefault(tzone)
         if(!realm.isAutoRefresh){
             realm.refresh()
         }

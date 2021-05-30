@@ -1,5 +1,6 @@
 package com.example.calory_calculator
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -60,6 +61,7 @@ class CustomDialogFragment: DialogFragment() {
         var dialog_carbohydrates: TextView = rootView.findViewById(R.id.dialog_carbohydrates)
         var dialog_proteins: TextView = rootView.findViewById(R.id.dialog_proteins)
         var add_btn: ImageButton = rootView.findViewById(R.id.dialog_add_button)
+        var add_favorite_btn: ImageButton = rootView.findViewById(R.id.dialog_favorite_add_button)
         dialog_amount.setText("100")
         if(name_values != null){
             dialog_product_name.text = name_values
@@ -95,7 +97,7 @@ class CustomDialogFragment: DialogFragment() {
             }
         })
         realm.executeTransaction {
-            val dataFromProfile = it.where<history_value>().findFirst()
+            //val dataFromProfile = it.where<history_value>().findFirst()
                 val history_val = it.createObject(history_value::class.java, ObjectId())
                 history_val.owner_id = Variables.app?.currentUser()?.id
                 history_val.product_id = id_values?.toLong()
@@ -164,6 +166,29 @@ class CustomDialogFragment: DialogFragment() {
                             proteins_amount?.toDouble()))
                         dismiss()
                     }
+                }
+            }
+        }
+        add_favorite_btn.setOnClickListener {
+            var dontadd:Boolean = false
+            realm.executeTransaction {
+                val favorite_products = it.where<favorite_list_value>().findAll()
+                for(prod in favorite_products) {
+                    if (prod.name == dialog_product_name.text.toString()) {
+                        dontadd = true
+                        dismiss()
+                        Toast.makeText(getContext(),"This product is already on favorite product list", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                if(!dontadd){
+                    val favorite_products_val = it.createObject(favorite_list_value::class.java, ObjectId())
+                    favorite_products_val.owner_id = Variables.app?.currentUser()?.id
+                    favorite_products_val.product_id = id_values?.toLong()
+                    favorite_products_val.amount = dialog_amount.text.toString().toDouble()
+                    favorite_products_val.name = dialog_product_name.text.toString()
+                    Log.v("profile", "Successfully insert data in favorite products")
+                    dismiss()
+                    Toast.makeText(getContext(),"Product add to favorite product list", Toast.LENGTH_SHORT).show()
                 }
             }
         }

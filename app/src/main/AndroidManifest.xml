@@ -25,7 +25,10 @@
         </activity>
         <activity android:name=".ConfirmAccount" />
         <activity android:name=".Insert_Email_To_Reset" />
-        <activity android:name=".Food_list" />
+        <activity
+            android:name=".Food_list"
+            android:label="@string/title_activity_foodlist"
+            />
         <activity android:name=".Reset_password">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

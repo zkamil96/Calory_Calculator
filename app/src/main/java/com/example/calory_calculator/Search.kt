@@ -1,18 +1,22 @@
 package com.example.calory_calculator
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.calory_calculator.ADAPTER.FavoriteListAdapter
 import com.example.calory_calculator.ADAPTER.MyAdapter
 import com.example.calory_calculator.API.ApiService
 import com.example.calory_calculator.MODELS.Prod
 import com.example.calory_calculator.MODELS.days_value
+import com.example.calory_calculator.MODELS.favorite_list_value
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
@@ -27,7 +31,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatterBuilder
 import java.util.*
 
-class Search : AppCompatActivity(), MyAdapter.OnItemClickListener  {
+class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
     val user = Variables.app?.currentUser()
     val config = SyncConfiguration
         .Builder(user, Variables.app?.currentUser()?.id)
@@ -45,6 +49,7 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener  {
         setContentView(R.layout.activity_search)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         var adapter = MyAdapter(this)
         var recyclerView = findViewById<RecyclerView>(R.id.search_list_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -53,6 +58,11 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener  {
 
         var search_value = findViewById<EditText>(R.id.search_value)
         var search_value_button = findViewById<ImageButton>(R.id.search_value_button)
+        var favorite_list = findViewById<Button>(R.id.go_to_favorite_list_button)
+        favorite_list.setOnClickListener {
+            val intent = Intent(this, Favorite_products::class.java)
+            startActivity(intent)
+        }
         search_value_button.setOnClickListener(){
             if(search_value.text != null){
                 var api = retrofit.create(ApiService::class.java)
@@ -135,4 +145,6 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener  {
     fun asDate(localDateTime: LocalDateTime): Date? {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant())
     }
+
+
 }
