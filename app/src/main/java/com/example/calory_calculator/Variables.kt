@@ -19,8 +19,5 @@ object Variables {
     var lunchtime_list = emptyList<days_value_lunchtime>()
     var snacks_list = emptyList<days_value_snacks>()
     var dinner_list = emptyList<days_value_dinner>()
-    var b = false
-    var l = false
-    var s = false
-    var d = false
+    var meal_name:String? = null
 }

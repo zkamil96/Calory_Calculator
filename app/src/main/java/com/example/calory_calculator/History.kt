@@ -19,6 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 
 class History : AppCompatActivity(), HistoryAdapter.OnItemClickListener {
     val user = Variables.app?.currentUser()
@@ -41,7 +42,6 @@ class History : AppCompatActivity(), HistoryAdapter.OnItemClickListener {
             realm.executeTransaction {
                 val dataFromProfile = it.where<history_value>().findAll()
                 if (dataFromProfile != null) {
-                    //dataFromProfile.sort("date")
                     adapter.setData(dataFromProfile.sort("date"))
                     Log.v("history", "Data showed")
                 } else {
@@ -49,5 +49,13 @@ class History : AppCompatActivity(), HistoryAdapter.OnItemClickListener {
                 }
             }
         }
+    }
+
+    override fun onItemClick(id: Long, name: String) {
+        var actual_date = LocalDateTime.now()
+        var date = Search.asDate(actual_date)
+        var dialog = CustomDialogFragment()
+        dialog.get_Values(id.toInt(), name, date!!)
+        dialog.show(supportFragmentManager, "customDialog")
     }
 }
