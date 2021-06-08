@@ -33,6 +33,7 @@
             android:background="#B9F49A"
             android:freezesText="false"
             android:gravity="fill_horizontal|fill_vertical"
+            android:paddingLeft="30dp"
             android:textAlignment="viewStart" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

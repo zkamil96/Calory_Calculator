@@ -1,5 +1,6 @@
 package com.example.calory_calculator
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -10,11 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.text.isDigitsOnly
+import androidx.core.view.get
 import androidx.fragment.app.DialogFragment
 import com.example.calory_calculator.API.ApiService
 import com.example.calory_calculator.MODELS.*
@@ -47,7 +46,9 @@ class CustomDialogFragment: DialogFragment() {
     var fats_amount:String? = "0.0"
     var carbohydrates_amount:String? = "0.0"
     var search_date: Date? = null
+    var spinner_position = Variables.meal_name
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -62,6 +63,7 @@ class CustomDialogFragment: DialogFragment() {
         var dialog_proteins: TextView = rootView.findViewById(R.id.dialog_proteins)
         var add_btn: ImageButton = rootView.findViewById(R.id.dialog_add_button)
         var add_favorite_btn: ImageButton = rootView.findViewById(R.id.dialog_favorite_add_button)
+        var meal_choice: Spinner = rootView.findViewById(R.id.meal_choice)
         dialog_amount.setText("100")
         if(name_values != null){
             dialog_product_name.text = name_values
@@ -108,16 +110,49 @@ class CustomDialogFragment: DialogFragment() {
         }
         var actual_date = LocalDate.now()
         var parse_date = Date.from(actual_date.atStartOfDay(ZoneId.systemDefault()).toInstant())
-        if(!Variables.b && !Variables.l && !Variables.s && !Variables.d ){
+        when{
+            Variables.meal_name == "breakfast" -> {
+                meal_choice.setSelection(0)
+            }
+            Variables.meal_name == "lunchtime" -> {
+                meal_choice.setSelection(1)
+            }
+            Variables.meal_name == "snacks" -> {
+                meal_choice.setSelection(2)
+            }
+            Variables.meal_name == "dinner" -> {
+                meal_choice.setSelection(3)
+            }
+        }
+/*        if(!Variables.b && !Variables.l && !Variables.s && !Variables.d ){
             add_btn.visibility = View.GONE
         }else{
             add_btn.visibility = View.VISIBLE
-        }
+        }*/
+        //Log.v("r", meal_choice.selectedItemPosition.toString())
+/*        var datas = listOf<String>("breakfast", "lunchtime", "snacks", "dinner")
+        //var arrayAdapter = ArrayAdapter<String>(requireContext(),android.R.layout.simple_spinner_item, R.array.meal_entries)
+        var arrayAdapter = ArrayAdapter<String>(requireContext(),android.R.layout.simple_spinner_item, datas)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        meal_choice.adapter = arrayAdapter
+        meal_choice.onItemSelectedListener = object :
+
+        AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                spinner_position = parent?.getItemAtPosition(position).toString()
+            }
+        }*/
+
+
         add_btn.setOnClickListener{
             realm.executeTransaction {
                 val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
                 when {
-                    Variables.b -> {
+                    meal_choice.selectedItemPosition == 0 -> {
                         dataFromFood?.breakfast?.add(
                             days_value_breakfast(
                             dialog_amount.text.toString().toLong(),
@@ -128,8 +163,9 @@ class CustomDialogFragment: DialogFragment() {
                             name_values.toString(),
                             proteins_amount?.toDouble()))
                         dismiss()
+                        Toast.makeText(getContext(),"Product has been added to breakfast", Toast.LENGTH_SHORT).show()
                     }
-                    Variables.l -> {
+                    meal_choice.selectedItemPosition == 1 -> {
                         dataFromFood?.lunchtime?.add(
                             days_value_lunchtime(
                                 dialog_amount.text.toString().toLong(),
@@ -141,8 +177,9 @@ class CustomDialogFragment: DialogFragment() {
                                 proteins_amount?.toDouble())
                         )
                         dismiss()
+                        Toast.makeText(getContext(),"Product has been added to lunchtime", Toast.LENGTH_SHORT).show()
                     }
-                    Variables.s -> {
+                    meal_choice.selectedItemPosition == 2 -> {
                         dataFromFood?.snacks?.add(
                             days_value_snacks(
                                 dialog_amount.text.toString().toLong(),
@@ -154,8 +191,9 @@ class CustomDialogFragment: DialogFragment() {
                                 proteins_amount?.toDouble())
                         )
                         dismiss()
+                        Toast.makeText(getContext(),"Product has been added to snacks", Toast.LENGTH_SHORT).show()
                     }
-                    Variables.d -> {
+                    meal_choice.selectedItemPosition == 3 -> {
                         dataFromFood?.dinner?.add(days_value_dinner(
                             dialog_amount.text.toString().toLong(),
                             calory_amount?.toDouble(),
@@ -165,8 +203,10 @@ class CustomDialogFragment: DialogFragment() {
                             name_values.toString(),
                             proteins_amount?.toDouble()))
                         dismiss()
+                        Toast.makeText(getContext(),"Product has been added to dinner", Toast.LENGTH_SHORT).show()
                     }
                 }
+
             }
         }
         add_favorite_btn.setOnClickListener {

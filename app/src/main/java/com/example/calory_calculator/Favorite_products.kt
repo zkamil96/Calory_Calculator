@@ -14,6 +14,7 @@ import com.example.calory_calculator.MODELS.history_value
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
+import java.time.LocalDateTime
 
 class Favorite_products : AppCompatActivity(), FavoriteListAdapter.OnItemClickListener {
     val user = Variables.app?.currentUser()
@@ -46,6 +47,10 @@ class Favorite_products : AppCompatActivity(), FavoriteListAdapter.OnItemClickLi
     }
 
     override fun onFavItemClick(id: Long, name: String) {
-
+        var actual_date = LocalDateTime.now()
+        var date = Search.asDate(actual_date)
+        var dialog = CustomDialogFragment()
+        dialog.get_Values(id.toInt(), name, date!!)
+        dialog.show(supportFragmentManager, "customDialog")
     }
 }
