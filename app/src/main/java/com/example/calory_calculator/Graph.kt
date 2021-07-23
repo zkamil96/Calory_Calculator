@@ -1,7 +1,10 @@
 package com.example.calory_calculator
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.calory_calculator.MODELS.days_value
 import com.github.mikephil.charting.charts.BarChart
@@ -9,11 +12,9 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import io.realm.Realm
-import io.realm.annotations.PrimaryKey
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
-import org.bson.types.ObjectId
-import java.time.DayOfWeek
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
@@ -31,17 +32,23 @@ class Graph : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graph)
         var graph: BarChart = findViewById(R.id.graph_bar)
-        var parse_date = Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant())
-        var date_last_week = Date.from(LocalDate.now().minusWeeks(1).atStartOfDay(ZoneId.systemDefault()).toInstant())
-        var date_plus_one_day = Date.from(LocalDate.now().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant())
+        var date_now = LocalDate.now()
+        var parse_date = Date.from(date_now.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        var date_last_week = Date.from(date_now.minusWeeks(1).atStartOfDay(ZoneId.systemDefault()).toInstant())
+        var date_plus_one_day = Date.from(date_now.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant())
         open class Graphdata(
                 var day_date: String? = null,
                 var calory: Long? = null
         )
         var graph_data_list = ArrayList<Graphdata>(7)
-        val xvalues = ArrayList<String>()
+        var xvalues = ArrayList<String>()
         var temp_day_number = getDayNumberOld(parse_date)
         var number = 0
+        var graph_back_button:ImageButton = findViewById(R.id.back_btn)
+        var graph_forward_button:ImageButton = findViewById(R.id.forward_btn)
+        var graph_text:TextView = findViewById(R.id.text_graph)
+
+        graph_text.text = parse_date.toString()
         while(xvalues.size != 7) {
             if(temp_day_number != 7){
                 xvalues.add(numerToDays(temp_day_number + 1))
@@ -53,7 +60,6 @@ class Graph : AppCompatActivity() {
             }
         }
 
-        Log.v("order_good", xvalues.toString())
         xvalues.forEach {
             graph_data_list.add(Graphdata(it, 0))
         }
@@ -76,20 +82,137 @@ class Graph : AppCompatActivity() {
             }
         }
 
-        for (date in graph_data_list) {
-            Log.v("pokza czydziala", date.calory.toString())
-        }
-
         val lineentry = ArrayList<BarEntry>()
         for ((index, calory) in graph_data_list.withIndex()) {
                 lineentry.add(BarEntry(calory.calory?.toFloat()!!, index))
         }
-            val bardataset = BarDataSet(lineentry, "Calory")
+            val bardataset = BarDataSet(lineentry, "Calory Values")
             val data = BarData(xvalues, bardataset)
+            data.setValueTextSize(20f)
             graph.data = data
-            graph.setDescription("Set Bar Chart Description")
-            bardataset.color = resources.getColor(R.color.purple_500)
+            graph.setDescription("Week Calory Graph")
             graph.animateY(3000)
+            graph.setDescriptionTextSize(30f)
+
+        graph_back_button.setOnClickListener {
+            graph_data_list = ArrayList<Graphdata>(7)
+            xvalues = ArrayList<String>()
+            temp_day_number = getDayNumberOld(parse_date)
+            number = 0
+            date_now = date_now.minusWeeks(1)
+            graph_text.text = date_now.toString()
+            parse_date = Date.from(date_now.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            date_last_week = Date.from(date_now?.minusWeeks(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
+            date_plus_one_day = Date.from(date_now?.plusDays(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
+
+            Log.v("sprawdze", parse_date.toString())
+            graph_text.text = parse_date.toString()
+            while(xvalues.size != 7) {
+                if(temp_day_number != 7){
+                    xvalues.add(numerToDays(temp_day_number + 1))
+                    temp_day_number++
+                }
+                else{
+                    xvalues.add(numerToDays(number + 1))
+                    number++
+                }
+            }
+
+            xvalues.forEach {
+                graph_data_list.add(Graphdata(it, 0))
+            }
+
+            realm.executeTransaction {
+                val dates = it.where<days_value>().findAll()
+                if (!dates.isEmpty()) {
+                    var sorted_dates = dates.sort("date")
+
+                    Log.v("datasorted", sorted_dates.size.toString())
+                    for (date in sorted_dates) {
+                        if (date.date?.before(date_plus_one_day)!! && date.date?.after(date_last_week)!!) {
+                            graph_data_list.forEach {
+                                if(it.day_date == numerToDays(getDayNumberOld(date.date))){
+                                    it.calory = date.actual_calory
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            val lineentry = ArrayList<BarEntry>()
+            for ((index, calory) in graph_data_list.withIndex()) {
+                lineentry.add(BarEntry(calory.calory?.toFloat()!!, index))
+            }
+            val bardataset = BarDataSet(lineentry, "Calory Values")
+            val data = BarData(xvalues, bardataset)
+            data.setValueTextSize(20f)
+            graph.data = data
+            graph.setDescription("Week Calory Graph")
+            graph.animateY(3000)
+            graph.setDescriptionTextSize(30f)
+            graph.refreshDrawableState()
+        }
+
+        graph_forward_button.setOnClickListener {
+            graph_data_list = ArrayList<Graphdata>(7)
+            xvalues = ArrayList<String>()
+            temp_day_number = getDayNumberOld(parse_date)
+            number = 0
+
+            date_now = date_now.plusWeeks(1)
+            graph_text.text = date_now.toString()
+            parse_date = Date.from(date_now.atStartOfDay(ZoneId.systemDefault()).toInstant())
+            date_last_week = Date.from(date_now?.minusWeeks(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
+            date_plus_one_day = Date.from(date_now?.plusDays(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
+
+            graph_text.text = parse_date.toString()
+            while(xvalues.size != 7) {
+                if(temp_day_number != 7){
+                    xvalues.add(numerToDays(temp_day_number + 1))
+                    temp_day_number++
+                }
+                else{
+                    xvalues.add(numerToDays(number + 1))
+                    number++
+                }
+            }
+
+            xvalues.forEach {
+                graph_data_list.add(Graphdata(it, 0))
+            }
+
+            realm.executeTransaction {
+                val dates = it.where<days_value>().findAll()
+                if (!dates.isEmpty()) {
+                    var sorted_dates = dates.sort("date")
+
+                    Log.v("datasorted", sorted_dates.size.toString())
+                    for (date in sorted_dates) {
+                        if (date.date?.before(date_plus_one_day)!! && date.date?.after(date_last_week)!!) {
+                            graph_data_list.forEach {
+                                if(it.day_date == numerToDays(getDayNumberOld(date.date))){
+                                    it.calory = date.actual_calory
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            val lineentry = ArrayList<BarEntry>()
+            for ((index, calory) in graph_data_list.withIndex()) {
+                lineentry.add(BarEntry(calory.calory?.toFloat()!!, index))
+            }
+            val bardataset = BarDataSet(lineentry, "Calory Values")
+            val data = BarData(xvalues, bardataset)
+            data.setValueTextSize(20f)
+            graph.data = data
+            graph.setDescription("Week Calory Graph")
+            graph.animateY(3000)
+            graph.setDescriptionTextSize(30f)
+            graph.refreshDrawableState()
+        }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
@@ -127,5 +250,11 @@ class Graph : AppCompatActivity() {
             }
         }
         return name_of_day!!
+    }
+
+    fun convertToLocalDate(dateToConvert: Date): LocalDate? {
+        return Instant.ofEpochMilli(dateToConvert.time)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate()
     }
 }

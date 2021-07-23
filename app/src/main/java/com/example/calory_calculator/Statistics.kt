@@ -79,13 +79,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
-        val chart: Button = findViewById(R.id.chart)
-        chart.setOnClickListener {
-            val intent = Intent(this, Graph::class.java)
-            startActivity(intent)
-        }
         Variables.fav_or_not = false
-
         if(!realm.isAutoRefresh){
             realm.refresh()
         }
@@ -308,6 +302,10 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            R.id.chart_button -> {
+                val intent = Intent(this, Graph::class.java)
+                startActivity(intent)
+            }
             R.id.item1 -> {
                 val intent = Intent(this, Profile::class.java)
                 startActivity(intent)
