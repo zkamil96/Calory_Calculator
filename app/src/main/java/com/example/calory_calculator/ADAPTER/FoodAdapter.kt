@@ -1,5 +1,6 @@
 package com.example.calory_calculator.ADAPTER
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,72 +63,88 @@ class FoodAdapter (
             holder.fats_recycler?.text = "Fats: " + myList[position].fats.toString()
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList[position].proteins.toString()
-/*            holder.button_recycler.setOnClickListener {
+            holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    if(dataFromFood?.breakfast != null)
-                    for(product in dataFromFood?.breakfast!!){
-                        if(product.name == myList[position].name){
-                            product.deleteFromRealm()
+                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    val dataFromFood = it.where<days_value_breakfast>().equalTo("name", myList[position].name).findFirst()
+                    if(dataFromFood != null)
+                    {
+                        if(dataAboutProducts?.breakfast == dataFromFood && dataAboutProducts?.date == parse_date){
+                            Log.v("possibility", dataFromFood.toString())
+                            if(dataFromFood.name == myList[position].name){
+                                dataFromFood.deleteFromRealm()
+                            }
                         }
                     }
                 }
                 notifyItemRemoved(position)
-            }*/
+            }
         }else if(myList2.isNotEmpty()){
             holder.name_recycler?.text = "Product name: \n" + myList2[position].name
             holder.amount_recycler?.text = "Calories: " + myList2[position].calories.toString()
             holder.fats_recycler?.text = "Fats: " + myList2[position].fats.toString()
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList2[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList2[position].proteins.toString()
-/*            holder.button_recycler.setOnClickListener {
+            holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    if(dataFromFood?.lunchtime != null)
-                    for(product in dataFromFood?.lunchtime!!){
-                        if(product.name == myList[position].name){
-                            product.deleteFromRealm()
+                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    val dataFromFood = it.where<days_value_lunchtime>().equalTo("name", myList2[position].name).findFirst()
+                    if(dataFromFood != null)
+                    {
+                        if(dataAboutProducts?.lunchtime == dataFromFood){
+                            Log.v("possibility", dataFromFood.toString())
+                            if(dataFromFood.name == myList2[position].name){
+                                dataFromFood.deleteFromRealm()
+                            }
                         }
                     }
                 }
                 notifyItemRemoved(position)
-            }*/
+            }
         }else if(myList3.isNotEmpty()){
             holder.name_recycler?.text = "Product name: \n" + myList3[position].name
             holder.amount_recycler?.text = "Calories: " + myList3[position].calories.toString()
             holder.fats_recycler?.text = "Fats: " + myList3[position].fats.toString()
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList3[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList3[position].proteins.toString()
-/*            holder.button_recycler.setOnClickListener {
+            holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    if(dataFromFood?.snacks != null)
-                    for(product in dataFromFood?.snacks!!){
-                        if(product.name == myList[position].name){
-                            product.deleteFromRealm()
+                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    val dataFromFood = it.where<days_value_snacks>().equalTo("name", myList3[position].name).findFirst()
+                    if(dataFromFood != null)
+                    {
+                        if(dataAboutProducts?.snacks == dataFromFood){
+                            Log.v("possibility", dataFromFood.toString())
+                            if(dataFromFood.name == myList3[position].name){
+                                dataFromFood.deleteFromRealm()
+                            }
                         }
                     }
                 }
                 notifyItemRemoved(position)
-            }*/
+            }
         }else if(myList4.isNotEmpty()){
             holder.name_recycler?.text = "Product name: \n" + myList4[position].name
             holder.amount_recycler?.text = "Calories: " + myList4[position].calories.toString()
             holder.fats_recycler?.text = "Fats: " + myList4[position].fats.toString()
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList4[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList4[position].proteins.toString()
-/*            holder.button_recycler.setOnClickListener {
+            holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    if(dataFromFood?.dinner != null)
-                    for(product in dataFromFood?.dinner!!){
-                        if(product.name == myList[position].name){
-                            product.deleteFromRealm()
+                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    val dataFromFood = it.where<days_value_dinner>().equalTo("name", myList4[position].name).findFirst()
+                    if(dataFromFood != null)
+                    {
+                        if(dataAboutProducts?.dinner == dataFromFood){
+                            Log.v("possibility", dataFromFood.toString())
+                            if(dataFromFood.name == myList4[position].name){
+                                dataFromFood.deleteFromRealm()
+                            }
                         }
                     }
                 }
                 notifyItemRemoved(position)
-            }*/
+            }
         }
     }
 

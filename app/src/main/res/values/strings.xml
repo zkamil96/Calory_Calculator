@@ -50,5 +50,6 @@
     <string name="snacks">Snacks</string>
     <string name="breakfast">Breakfast</string>
     <string name="title_activity_foodlist">Food List</string>
+    <string name="title_activity_graph">Graph</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -39,6 +40,7 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
         .allowWritesOnUiThread(true)
         .build()
     var realm : Realm = Realm.getInstance(config)
+    var search_value_button : ImageButton ? = null
 
 
 
@@ -47,7 +49,7 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        Variables.fav_or_not = false
         var adapter = MyAdapter(this)
         var recyclerView = findViewById<RecyclerView>(R.id.search_list_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -55,13 +57,14 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
         recyclerView.adapter = adapter
 
         var search_value = findViewById<EditText>(R.id.search_value)
-        var search_value_button = findViewById<ImageButton>(R.id.search_value_button)
+        search_value_button = findViewById<ImageButton>(R.id.search_value_button)
         var favorite_list = findViewById<Button>(R.id.go_to_favorite_list_button)
         favorite_list.setOnClickListener {
             val intent = Intent(this, Favorite_products::class.java)
+            Variables.fav_or_not = true
             startActivity(intent)
         }
-        search_value_button.setOnClickListener(){
+        search_value_button?.setOnClickListener(){
             if(search_value.text != null){
                 var api = retrofit.create(ApiService::class.java)
                 var call = api.getProducts(search_value.text.toString())
@@ -80,6 +83,15 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
                 }
             }
         }
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        when(keyCode){
+            KeyEvent.KEYCODE_ENTER ->{
+                search_value_button?.performClick()
+            }
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     companion object{

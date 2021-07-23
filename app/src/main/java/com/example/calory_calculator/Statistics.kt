@@ -84,9 +84,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
             val intent = Intent(this, Graph::class.java)
             startActivity(intent)
         }
-
-        chart.visibility = View.INVISIBLE
-
+        Variables.fav_or_not = false
 
         if(!realm.isAutoRefresh){
             realm.refresh()
@@ -103,7 +101,9 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         dinner_btn = findViewById(R.id.dinner_button)
         var dialog = Date_Dialog()
         date_btn?.setOnClickListener {
-            dialog.show(supportFragmentManager, "DateDialog")
+            if(!dialog.isAdded()){
+                dialog.show(supportFragmentManager, "DateDialog")
+            }
         }
         val parse_date_local = LocalDate.parse(date_btn?.text, DateTimeFormatter.ISO_DATE)
         parse_date = Date.from(parse_date_local.atStartOfDay(ZoneId.systemDefault()).toInstant())
@@ -205,7 +205,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     carbohydrates_number?.text = " Carbohydrates \n\n $actual_carbohydrates/$dec_carbohydrates g"
                     proteins_number?.text = " Proteins \n\n $actual_proteins/$dec_proteins g"
                 } else {
-/*                    calory_number?.text = "Kcal \n\n $actual_calory/$dec_calory kcal"
+/*                  calory_number?.text = "Kcal \n\n $actual_calory/$dec_calory kcal"
                     fats_number?.text = " Fats \n\n $actual_fats/$dec_fats g"
                     carbohydrates_number?.text = " Carbohydrates \n\n $actual_carbohydrates/$dec_carbohydrates g"
                     proteins_number?.text = " Proteins \n\n $actual_proteins/$dec_proteins g"*/
@@ -226,7 +226,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     override fun onResume() {
         super.onResume()
         Handler(Looper.getMainLooper()).post {
-            showActualDataFromDB()
+            //showActualDataFromDB()
         }
     }
 
@@ -246,6 +246,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                         sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
                         sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
                     }
+                //Log.v("naprawa sum", sum_calory.toString())
                 if (dataAboutProducts.lunchtime.size > 0)
                     for (prod in dataAboutProducts.lunchtime) {
                         sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
@@ -271,6 +272,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                 dataAboutProducts.actual_carbohydrates = sum_carbohydrates
                 dataAboutProducts.actual_fats = sum_fats
                 dataAboutProducts.actual_proteins = sum_proteins
+
 
                 actual_calory = dataAboutProducts.actual_calory?.toInt()
                 actual_fats = dataAboutProducts.actual_fats?.toInt()
@@ -316,6 +318,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
             }
             R.id.item4 -> {
                 val intent = Intent(this, Favorite_products::class.java)
+                Variables.fav_or_not = true
                 startActivity(intent)
             }
             R.id.item5 -> {

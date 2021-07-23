@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calory_Calculator">
-        <activity android:name=".Graph"></activity>
+        <activity android:name=".Graph"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName=".Statistics">
+        </activity>
         <activity android:name=".AccoutHasBeenConfirmed">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.get
+import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import com.example.calory_calculator.API.ApiService
 import com.example.calory_calculator.MODELS.*
@@ -64,6 +65,11 @@ class CustomDialogFragment: DialogFragment() {
         var add_btn: ImageButton = rootView.findViewById(R.id.dialog_add_button)
         var add_favorite_btn: ImageButton = rootView.findViewById(R.id.dialog_favorite_add_button)
         var meal_choice: Spinner = rootView.findViewById(R.id.meal_choice)
+        if(Variables.fav_or_not){
+            add_favorite_btn.visibility = View.GONE
+        }else{
+            add_favorite_btn.visibility = View.VISIBLE
+        }
         dialog_amount.setText("100")
         if(name_values != null){
             dialog_product_name.text = name_values

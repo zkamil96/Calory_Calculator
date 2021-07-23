@@ -13,4 +13,4 @@ open class days_value_dinner(
     var id: Long? = null,
     var name: String? = null,
     var proteins: Double? = null
-): RealmObject(), Serializable {}
+): RealmObject()
