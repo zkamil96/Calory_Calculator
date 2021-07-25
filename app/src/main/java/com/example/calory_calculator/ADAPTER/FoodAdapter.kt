@@ -65,19 +65,14 @@ class FoodAdapter (
             holder.proteins_recycler?.text = "Proteins: " + myList[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    val dataFromFood = it.where<days_value_breakfast>().equalTo("name", myList[position].name).findFirst()
-                    if(dataFromFood != null)
-                    {
-                        if(dataAboutProducts?.breakfast == dataFromFood && dataAboutProducts?.date == parse_date){
-                            Log.v("possibility", dataFromFood.toString())
-                            if(dataFromFood.name == myList[position].name){
-                                dataFromFood.deleteFromRealm()
-                            }
+                    var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    if(dataAboutProducts != null){
+                        if(dataAboutProducts.breakfast.isNotEmpty()){
+                            dataAboutProducts.breakfast.find { it.name == myList[holder.absoluteAdapterPosition].name }?.deleteFromRealm()
                         }
                     }
                 }
-                notifyItemRemoved(position)
+                notifyItemRemoved(holder.absoluteAdapterPosition)
             }
         }else if(myList2.isNotEmpty()){
             holder.name_recycler?.text = "Product name: \n" + myList2[position].name
@@ -87,19 +82,14 @@ class FoodAdapter (
             holder.proteins_recycler?.text = "Proteins: " + myList2[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    val dataFromFood = it.where<days_value_lunchtime>().equalTo("name", myList2[position].name).findFirst()
-                    if(dataFromFood != null)
-                    {
-                        if(dataAboutProducts?.lunchtime == dataFromFood){
-                            Log.v("possibility", dataFromFood.toString())
-                            if(dataFromFood.name == myList2[position].name){
-                                dataFromFood.deleteFromRealm()
-                            }
+                    var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    if(dataAboutProducts != null){
+                        if(dataAboutProducts.lunchtime.isNotEmpty()){
+                            dataAboutProducts.lunchtime.find { it.name == myList2[holder.absoluteAdapterPosition].name }?.deleteFromRealm()
                         }
                     }
                 }
-                notifyItemRemoved(position)
+                notifyItemRemoved(holder.absoluteAdapterPosition)
             }
         }else if(myList3.isNotEmpty()){
             holder.name_recycler?.text = "Product name: \n" + myList3[position].name
@@ -109,19 +99,14 @@ class FoodAdapter (
             holder.proteins_recycler?.text = "Proteins: " + myList3[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    val dataFromFood = it.where<days_value_snacks>().equalTo("name", myList3[position].name).findFirst()
-                    if(dataFromFood != null)
-                    {
-                        if(dataAboutProducts?.snacks == dataFromFood){
-                            Log.v("possibility", dataFromFood.toString())
-                            if(dataFromFood.name == myList3[position].name){
-                                dataFromFood.deleteFromRealm()
-                            }
+                    var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    if(dataAboutProducts != null){
+                        if(dataAboutProducts.snacks.isNotEmpty()){
+                            dataAboutProducts.snacks.find { it.name == myList3[holder.absoluteAdapterPosition].name }?.deleteFromRealm()
                         }
                     }
                 }
-                notifyItemRemoved(position)
+                notifyItemRemoved(holder.absoluteAdapterPosition)
             }
         }else if(myList4.isNotEmpty()){
             holder.name_recycler?.text = "Product name: \n" + myList4[position].name
@@ -131,19 +116,14 @@ class FoodAdapter (
             holder.proteins_recycler?.text = "Proteins: " + myList4[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
                 realm.executeTransaction {
-                    val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                    val dataFromFood = it.where<days_value_dinner>().equalTo("name", myList4[position].name).findFirst()
-                    if(dataFromFood != null)
-                    {
-                        if(dataAboutProducts?.dinner == dataFromFood){
-                            Log.v("possibility", dataFromFood.toString())
-                            if(dataFromFood.name == myList4[position].name){
-                                dataFromFood.deleteFromRealm()
-                            }
+                    var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                    if(dataAboutProducts != null){
+                        if(dataAboutProducts.dinner.isNotEmpty()){
+                            dataAboutProducts.dinner.find { it.name == myList4[holder.absoluteAdapterPosition].name }?.deleteFromRealm()
                         }
                     }
                 }
-                notifyItemRemoved(position)
+                notifyItemRemoved(holder.absoluteAdapterPosition)
             }
         }
     }

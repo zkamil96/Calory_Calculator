@@ -159,55 +159,98 @@ class CustomDialogFragment: DialogFragment() {
                 val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
                 when {
                     meal_choice.selectedItemPosition == 0 -> {
-                        dataFromFood?.breakfast?.add(
-                            days_value_breakfast(
-                            dialog_amount.text.toString().toLong(),
-                            calory_amount?.toDouble(),
-                            carbohydrates_amount?.toDouble(),
-                            fats_amount?.toDouble(),
-                            id_values?.toLong(),
-                            name_values.toString(),
-                            proteins_amount?.toDouble()))
+                        dataFromFood?.breakfast?.forEach {
+                            if(it.name == name_values.toString()){
+                                it.amount = it.amount?.plus(dialog_amount.text.toString().toLong())
+                                it.calories = it.calories?.plus(calory_amount?.toDouble()!!)
+                                it.carbohydrates = it.carbohydrates?.plus(carbohydrates_amount?.toDouble()!!)
+                                it.fats = it.fats?.plus(fats_amount?.toDouble()!!)
+                                it.proteins = it.proteins?.plus(proteins_amount?.toDouble()!!)
+                            }
+                        }
+                        if(dataFromFood?.breakfast?.find { it.name == name_values.toString()} == null){
+                            dataFromFood?.breakfast?.add(
+                                    days_value_breakfast(
+                                            dialog_amount.text.toString().toLong(),
+                                            calory_amount?.toDouble(),
+                                            carbohydrates_amount?.toDouble(),
+                                            fats_amount?.toDouble(),
+                                            id_values?.toLong(),
+                                            name_values.toString(),
+                                            proteins_amount?.toDouble()))
+                        }
                         dismiss()
                         Toast.makeText(getContext(),"Product has been added to breakfast", Toast.LENGTH_SHORT).show()
                     }
                     meal_choice.selectedItemPosition == 1 -> {
-                        dataFromFood?.lunchtime?.add(
-                            days_value_lunchtime(
-                                dialog_amount.text.toString().toLong(),
-                                calory_amount?.toDouble(),
-                                carbohydrates_amount?.toDouble(),
-                                fats_amount?.toDouble(),
-                                id_values?.toLong(),
-                                name_values.toString(),
-                                proteins_amount?.toDouble())
-                        )
+                        dataFromFood?.lunchtime?.forEach {
+                            if(it.name == name_values.toString()){
+                                it.amount = it.amount?.plus(dialog_amount.text.toString().toLong())
+                                it.calories = it.calories?.plus(calory_amount?.toDouble()!!)
+                                it.carbohydrates = it.carbohydrates?.plus(carbohydrates_amount?.toDouble()!!)
+                                it.fats = it.fats?.plus(fats_amount?.toDouble()!!)
+                                it.proteins = it.proteins?.plus(proteins_amount?.toDouble()!!)
+                            }
+                        }
+                        if(dataFromFood?.lunchtime?.find { it.name == name_values.toString()} == null){
+                            dataFromFood?.lunchtime?.add(
+                                    days_value_lunchtime(
+                                            dialog_amount.text.toString().toLong(),
+                                            calory_amount?.toDouble(),
+                                            carbohydrates_amount?.toDouble(),
+                                            fats_amount?.toDouble(),
+                                            id_values?.toLong(),
+                                            name_values.toString(),
+                                            proteins_amount?.toDouble()))
+                        }
                         dismiss()
                         Toast.makeText(getContext(),"Product has been added to lunchtime", Toast.LENGTH_SHORT).show()
                     }
                     meal_choice.selectedItemPosition == 2 -> {
-                        dataFromFood?.snacks?.add(
-                            days_value_snacks(
-                                dialog_amount.text.toString().toLong(),
-                                calory_amount?.toDouble(),
-                                carbohydrates_amount?.toDouble(),
-                                fats_amount?.toDouble(),
-                                id_values?.toLong(),
-                                name_values.toString(),
-                                proteins_amount?.toDouble())
-                        )
+                        dataFromFood?.snacks?.forEach {
+                            if(it.name == name_values.toString()){
+                                it.amount = it.amount?.plus(dialog_amount.text.toString().toLong())
+                                it.calories = it.calories?.plus(calory_amount?.toDouble()!!)
+                                it.carbohydrates = it.carbohydrates?.plus(carbohydrates_amount?.toDouble()!!)
+                                it.fats = it.fats?.plus(fats_amount?.toDouble()!!)
+                                it.proteins = it.proteins?.plus(proteins_amount?.toDouble()!!)
+                            }
+                        }
+                        if(dataFromFood?.snacks?.find { it.name == name_values.toString()} == null){
+                            dataFromFood?.snacks?.add(
+                                    days_value_snacks(
+                                            dialog_amount.text.toString().toLong(),
+                                            calory_amount?.toDouble(),
+                                            carbohydrates_amount?.toDouble(),
+                                            fats_amount?.toDouble(),
+                                            id_values?.toLong(),
+                                            name_values.toString(),
+                                            proteins_amount?.toDouble()))
+                        }
                         dismiss()
                         Toast.makeText(getContext(),"Product has been added to snacks", Toast.LENGTH_SHORT).show()
                     }
                     meal_choice.selectedItemPosition == 3 -> {
-                        dataFromFood?.dinner?.add(days_value_dinner(
-                            dialog_amount.text.toString().toLong(),
-                            calory_amount?.toDouble(),
-                            carbohydrates_amount?.toDouble(),
-                            fats_amount?.toDouble(),
-                            id_values?.toLong(),
-                            name_values.toString(),
-                            proteins_amount?.toDouble()))
+                        dataFromFood?.dinner?.forEach {
+                            if(it.name == name_values.toString()){
+                                it.amount = it.amount?.plus(dialog_amount.text.toString().toLong())
+                                it.calories = it.calories?.plus(calory_amount?.toDouble()!!)
+                                it.carbohydrates = it.carbohydrates?.plus(carbohydrates_amount?.toDouble()!!)
+                                it.fats = it.fats?.plus(fats_amount?.toDouble()!!)
+                                it.proteins = it.proteins?.plus(proteins_amount?.toDouble()!!)
+                            }
+                        }
+                        if(dataFromFood?.dinner?.find { it.name == name_values.toString()} == null){
+                            dataFromFood?.dinner?.add(
+                                    days_value_dinner(
+                                            dialog_amount.text.toString().toLong(),
+                                            calory_amount?.toDouble(),
+                                            carbohydrates_amount?.toDouble(),
+                                            fats_amount?.toDouble(),
+                                            id_values?.toLong(),
+                                            name_values.toString(),
+                                            proteins_amount?.toDouble()))
+                        }
                         dismiss()
                         Toast.makeText(getContext(),"Product has been added to dinner", Toast.LENGTH_SHORT).show()
                     }
