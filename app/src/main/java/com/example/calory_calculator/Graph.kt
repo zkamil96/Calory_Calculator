@@ -48,7 +48,17 @@ class Graph : AppCompatActivity() {
         var graph_forward_button:ImageButton = findViewById(R.id.forward_btn)
         var graph_text:TextView = findViewById(R.id.text_graph)
 
-        graph_text.text = parse_date.toString()
+        var day = date_now.dayOfMonth
+        var month = date_now.monthValue
+        var year = date_now.year
+        var begin_date = "$day/$month/$year"
+        var end_date_tolocal = convertToLocalDate(date_last_week)
+        day = end_date_tolocal?.dayOfMonth!!
+        month = end_date_tolocal.monthValue
+        year = end_date_tolocal.year
+        var end_date = "$day/$month/$year"
+        graph_text.text = "$end_date - $begin_date"
+
         while(xvalues.size != 7) {
             if(temp_day_number != 7){
                 xvalues.add(numerToDays(temp_day_number + 1))
@@ -100,13 +110,21 @@ class Graph : AppCompatActivity() {
             temp_day_number = getDayNumberOld(parse_date)
             number = 0
             date_now = date_now.minusWeeks(1)
-            graph_text.text = date_now.toString()
             parse_date = Date.from(date_now.atStartOfDay(ZoneId.systemDefault()).toInstant())
             date_last_week = Date.from(date_now?.minusWeeks(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
             date_plus_one_day = Date.from(date_now?.plusDays(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
 
-            Log.v("sprawdze", parse_date.toString())
-            graph_text.text = parse_date.toString()
+            day = date_now.dayOfMonth
+            month = date_now.monthValue
+            year = date_now.year
+            begin_date = "$day/$month/$year"
+            end_date_tolocal = convertToLocalDate(date_last_week)
+            day = end_date_tolocal?.dayOfMonth!!
+            month = end_date_tolocal?.monthValue!!
+            year = end_date_tolocal?.year!!
+            end_date = "$day/$month/$year"
+            graph_text.text = "$end_date - $begin_date"
+
             while(xvalues.size != 7) {
                 if(temp_day_number != 7){
                     xvalues.add(numerToDays(temp_day_number + 1))
@@ -161,12 +179,21 @@ class Graph : AppCompatActivity() {
             number = 0
 
             date_now = date_now.plusWeeks(1)
-            graph_text.text = date_now.toString()
             parse_date = Date.from(date_now.atStartOfDay(ZoneId.systemDefault()).toInstant())
             date_last_week = Date.from(date_now?.minusWeeks(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
             date_plus_one_day = Date.from(date_now?.plusDays(1)?.atStartOfDay(ZoneId.systemDefault())?.toInstant())
 
-            graph_text.text = parse_date.toString()
+            day = date_now.dayOfMonth
+            month = date_now.monthValue
+            year = date_now.year
+            begin_date = "$day/$month/$year"
+            end_date_tolocal = convertToLocalDate(date_last_week)
+            day = end_date_tolocal?.dayOfMonth!!
+            month = end_date_tolocal?.monthValue!!
+            year = end_date_tolocal?.year!!
+            end_date = "$day/$month/$year"
+            graph_text.text = "$end_date - $begin_date"
+
             while(xvalues.size != 7) {
                 if(temp_day_number != 7){
                     xvalues.add(numerToDays(temp_day_number + 1))
