@@ -10,6 +10,7 @@ import io.realm.mongodb.sync.ClientResetRequiredError
 import io.realm.mongodb.sync.Sync
 import io.realm.mongodb.sync.SyncConfiguration
 import io.realm.mongodb.sync.SyncSession
+import java.util.*
 import java.util.concurrent.ThreadLocalRandom.current
 
 
@@ -39,6 +40,9 @@ public class MyApplication : Application(){
                 .defaultClientResetHandler(handler)
                 .build()
         )
+
+        val tzone = TimeZone.getTimeZone("Europe/Warsaw")
+        TimeZone.setDefault(tzone)
     }
 }
 

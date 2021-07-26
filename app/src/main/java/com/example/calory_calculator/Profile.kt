@@ -53,7 +53,6 @@ class Profile : AppCompatActivity() {
         var preferences = PreferenceManager.getDefaultSharedPreferences(this)
         var editor = preferences?.edit()
 
-        Handler(Looper.getMainLooper()).post {
             realm.executeTransaction {
                 val dataFromProfile = it.where<calory_value>().findFirst()
                 if(dataFromProfile != null){
@@ -71,13 +70,13 @@ class Profile : AppCompatActivity() {
                     Log.v("profile", "No data in realm")
                 }
             }
-        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         Variables.clear_or_not = true
+        realm.close()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -93,7 +92,8 @@ class Profile : AppCompatActivity() {
                 water_reminder_value = preferences?.getBoolean("water_reminder", false)
                 eat_reminder_value = preferences?.getBoolean("eat_reminder", false)
 
-                if (!gender_value.isNullOrBlank() && !growth_value.isNullOrBlank() && !weight_value.isNullOrBlank() && !age_value.isNullOrBlank() && !physical_activity_value.isNullOrBlank() && !destination_value.isNullOrBlank()){
+                if (!gender_value.isNullOrBlank() && !growth_value.isNullOrBlank() && !weight_value.isNullOrBlank()
+                        && !age_value.isNullOrBlank() && !physical_activity_value.isNullOrBlank() && !destination_value.isNullOrBlank() && growth_value?.toInt() != 0 && weight_value?.toInt() != 0 && age_value?.toInt() != 0){
                     Handler(Looper.getMainLooper()).post {
                         realm.executeTransaction {
                             val dataFromProfile = it.where<calory_value>().findFirst()

@@ -12,11 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calory_Calculator">
+        <activity android:name=".Graph"
+            android:label="@string/title_activity_graph"
+            android:parentActivityName=".Statistics">
+        </activity>
         <activity android:name=".AccoutHasBeenConfirmed">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="calorycalculator"
                     android:pathPrefix="/confirmemail"
@@ -25,12 +31,17 @@
         </activity>
         <activity android:name=".ConfirmAccount" />
         <activity android:name=".Insert_Email_To_Reset" />
-        <activity android:name=".Food_list" />
+        <activity
+            android:name=".Food_list"
+            android:label="@string/title_activity_foodlist"
+            android:parentActivityName=".Statistics"/>
         <activity android:name=".Reset_password">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="calorycalculator"
                     android:pathPrefix="/resetpassword"

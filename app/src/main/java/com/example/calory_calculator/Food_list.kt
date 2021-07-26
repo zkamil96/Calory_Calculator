@@ -18,13 +18,10 @@ class Food_list : AppCompatActivity(), FoodAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_list)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         food_list_name = findViewById(R.id.food_list_name)
         food_list_btn = findViewById(R.id.food_list_button)
-
-        var intent: Intent = getIntent()
-        var meal_name:String? = null
-        meal_name = intent.getStringExtra("name")
-        food_list_name?.text = meal_name
+        food_list_name?.text = Variables.meal_name
 
         var adapter = FoodAdapter(this)
         var recyclerView = findViewById<RecyclerView>(R.id.food_list_recycler)
@@ -32,34 +29,18 @@ class Food_list : AppCompatActivity(), FoodAdapter.OnItemClickListener {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
 
-        when (meal_name) {
+        when (Variables.meal_name) {
             "breakfast" -> {
                 adapter.setData(Variables.breakfast_list)
-                Variables.b = true
-                Variables.l = false
-                Variables.s = false
-                Variables.d = false
             }
             "lunchtime" -> {
                 adapter.setDataLunch((Variables.lunchtime_list))
-                Variables.b = false
-                Variables.l = true
-                Variables.s = false
-                Variables.d = false
             }
             "snacks" -> {
                 adapter.setDatasnacks((Variables.snacks_list))
-                Variables.b = false
-                Variables.l = false
-                Variables.s = true
-                Variables.d = false
             }
             "dinner" -> {
                 adapter.setDatadinner((Variables.dinner_list))
-                Variables.b = false
-                Variables.l = false
-                Variables.s = false
-                Variables.d = true
             }
         }
 

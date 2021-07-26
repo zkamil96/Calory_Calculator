@@ -55,12 +55,18 @@ class HistoryAdapter(
         }
 
         override fun onClick(v: View?) {
+            val position = bindingAdapterPosition
+            var item_name = myList[position].name
+            var item_id = myList[position].product_id
+            if(position != RecyclerView.NO_POSITION) {
+                listener.onItemClick(item_id!!, item_name!!)
+            }
 
         }
     }
 
     interface OnItemClickListener{
-        //fun onItemClick(id: Int, name:String)
+        fun onItemClick(id: Long, name:String)
     }
 
 }

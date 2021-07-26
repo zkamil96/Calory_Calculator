@@ -6,7 +6,6 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
@@ -15,25 +14,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/recycle_view_history_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#B9F49A"
-            android:gravity="fill_horizontal|fill_vertical"
-            android:paddingLeft="30dp"
-            android:textAlignment="viewStart" />
 
         <TextView
-            android:id="@+id/recycle_view_history_date"
+            android:id="@+id/favorite_product_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="#B9F49A"
-            android:freezesText="false"
-            android:gravity="fill_horizontal|fill_vertical"
-            android:paddingLeft="30dp"
-            android:textAlignment="viewStart" />
+            android:background="#F3EFCD"
+            android:drawableRight="@android:drawable/ic_menu_edit"
+            android:gravity="fill"
+            android:paddingLeft="8dp"
+            android:text="TextView"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="-1dp" />
+
+        <ImageButton
+            android:id="@+id/delete_product_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_delete" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
