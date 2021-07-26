@@ -18,8 +18,13 @@ import io.realm.mongodb.User
 import io.realm.mongodb.mongo.MongoClient
 import io.realm.mongodb.mongo.MongoCollection
 import io.realm.mongodb.mongo.MongoDatabase
+import io.realm.mongodb.sync.SyncConfiguration
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.bson.Document
 import java.util.regex.Pattern
+import kotlin.concurrent.thread
 
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,8 +96,18 @@ class Login : AppCompatActivity() {
                 )
                 Variables.app?.loginAsync(emailPasswordCredentials) {
                     if (it.isSuccess) {
+                        val user = Variables.app?.currentUser()
+                        val config = SyncConfiguration
+                                .Builder(user, Variables.app?.currentUser()?.id)
+                                .allowQueriesOnUiThread(true)
+                                .allowWritesOnUiThread(true)
+                                .build()
+                        var realm : Realm = Realm.getInstance(config)
+                        realm.refresh()
                         val intent = Intent(this, Statistics::class.java)
                         startActivity(intent)
+                        Thread.sleep(3000)
+                        pb.visibility = View.GONE
                     } else {
                         if(it.error.errorMessage.equals("confirmation required")){
                             val intent = Intent(this, ConfirmAccount::class.java)

@@ -13,14 +13,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.calory_calculator.MODELS.*
 import io.realm.Realm
 import io.realm.RealmList
+import io.realm.kotlin.syncSession
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
 import org.bson.types.ObjectId
 import java.io.Serializable
 import java.time.LocalDate
@@ -38,6 +43,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
             .allowWritesOnUiThread(true)
             .build()
     var realm : Realm = Realm.getInstance(config)
+
     var calculated_calory:Double? = 0.0
     var calculated_fats:Double? = 0.0
     var calculated_carbohydrates:Double? = 0.0
@@ -79,10 +85,12 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
+
         Variables.fav_or_not = false
         if(!realm.isAutoRefresh){
             realm.refresh()
         }
+
         calory_number = findViewById(R.id.calory_text)
         fats_number = findViewById(R.id.fats_text)
         carbohydrates_number = findViewById(R.id.carbohydrates_text)
@@ -94,47 +102,18 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         snacks_btn = findViewById(R.id.snacks_button)
         dinner_btn = findViewById(R.id.dinner_button)
         var dialog = Date_Dialog()
+        Log.v("dlaczegodata", date_btn?.text.toString())
+
         date_btn?.setOnClickListener {
             if(!dialog.isAdded()){
                 dialog.show(supportFragmentManager, "DateDialog")
             }
         }
+
         val parse_date_local = LocalDate.parse(date_btn?.text, DateTimeFormatter.ISO_DATE)
         parse_date = Date.from(parse_date_local.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
-        Handler(Looper.getMainLooper()).post {
-            showActualDataFromDB()
-            }
-
-/*        Handler(Looper.getMainLooper()).post {
-            realm.executeTransaction {
-                val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                if (dataAboutProducts != null) {
-                    actual_calory = dataAboutProducts.actual_calory?.toInt()
-                    actual_fats = dataAboutProducts.actual_fats?.toInt()
-                    actual_carbohydrates = dataAboutProducts.actual_carbohydrates?.toInt()
-                    actual_proteins = dataAboutProducts.actual_proteins?.toInt()
-                    Variables.breakfast_list = dataAboutProducts.breakfast
-                    Variables.lunchtime_list = dataAboutProducts.lunchtime
-                    Variables.snacks_list = dataAboutProducts.snacks
-                    Variables.dinner_list = dataAboutProducts.dinner
-                    Log.v("Success", "Succesfully get data from db")
-                } else {
-                    val day_data = it.createObject(days_value::class.java, ObjectId())
-                    day_data.owner_id = Variables.app?.currentUser()?.id
-                    day_data.breakfast.addAll(Variables.breakfast_list)
-                    day_data.lunchtime.addAll(Variables.lunchtime_list)
-                    day_data.snacks.addAll(Variables.snacks_list)
-                    day_data.dinner.addAll(Variables.dinner_list)
-                    day_data.actual_calory = 0
-                    day_data.actual_carbohydrates = 0
-                    day_data.actual_fats = 0
-                    day_data.actual_proteins = 0
-                    day_data.date = parse_date
-                    Log.v("Failed", "Succesfully insert data to db")
-                }
-            }
-        }*/
+        showActualDataFromDB()
 
         val listener = View.OnClickListener { view ->
             when (view.getId()) {
@@ -154,14 +133,14 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
             val intent = Intent(this, Food_list::class.java)
             startActivity(intent)
         }
+
         breakfast_btn?.setOnClickListener(listener)
         lunchtime_btn?.setOnClickListener(listener)
         snacks_btn?.setOnClickListener(listener)
         dinner_btn?.setOnClickListener(listener)
 
 
-        Handler(Looper.getMainLooper()).post {
-            realm.executeTransaction {
+            realm.executeTransaction{
                 val dataFromProfile = it.where<calory_value>().findFirst()
                 if(dataFromProfile != null) {
                     gender_value = dataFromProfile.gender
@@ -198,11 +177,8 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     fats_number?.text = " Fats \n\n $actual_fats/$dec_fats g"
                     carbohydrates_number?.text = " Carbohydrates \n\n $actual_carbohydrates/$dec_carbohydrates g"
                     proteins_number?.text = " Proteins \n\n $actual_proteins/$dec_proteins g"
+
                 } else {
-/*                  calory_number?.text = "Kcal \n\n $actual_calory/$dec_calory kcal"
-                    fats_number?.text = " Fats \n\n $actual_fats/$dec_fats g"
-                    carbohydrates_number?.text = " Carbohydrates \n\n $actual_carbohydrates/$dec_carbohydrates g"
-                    proteins_number?.text = " Proteins \n\n $actual_proteins/$dec_proteins g"*/
                     Log.e("Failed", "failed to find document")
                     if(Variables.clear_or_not){
                         var preferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -214,14 +190,23 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     startActivity(intent)
                 }
             }
-        }
     }
 
     override fun onResume() {
         super.onResume()
         Handler(Looper.getMainLooper()).post {
-            //showActualDataFromDB()
+            if(Variables.clear_or_not){
+                var preferences = PreferenceManager.getDefaultSharedPreferences(this)
+                var editor = preferences?.edit()
+                editor?.clear()
+                editor?.apply()
+            }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
     }
 
     override fun onBackPressed() {
@@ -230,68 +215,69 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     }
 
     private fun showActualDataFromDB() {
-        realm.executeTransaction {
-            val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
-            if (dataAboutProducts != null) {
-                if (dataAboutProducts.breakfast.size > 0)
-                    for (prod in dataAboutProducts.breakfast) {
-                        sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
-                        sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
-                        sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
-                        sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
-                    }
-                //Log.v("naprawa sum", sum_calory.toString())
-                if (dataAboutProducts.lunchtime.size > 0)
-                    for (prod in dataAboutProducts.lunchtime) {
-                        sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
-                        sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
-                        sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
-                        sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
-                    }
-                if (dataAboutProducts.snacks.size > 0)
-                    for (prod in dataAboutProducts.snacks) {
-                        sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
-                        sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
-                        sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
-                        sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
-                    }
-                if (dataAboutProducts.dinner.size > 0)
-                    for (prod in dataAboutProducts.dinner) {
-                        sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
-                        sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
-                        sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
-                        sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
-                    }
-                dataAboutProducts.actual_calory = sum_calory
-                dataAboutProducts.actual_carbohydrates = sum_carbohydrates
-                dataAboutProducts.actual_fats = sum_fats
-                dataAboutProducts.actual_proteins = sum_proteins
+            realm.executeTransaction {
+                var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                Log.v("dlaczegotoniedziala2", realm.toString())
+                Log.v("dlaczegotoniedziala", dataAboutProducts.toString())
 
+                if (dataAboutProducts != null) {
+                    if (dataAboutProducts.breakfast.size > 0)
+                        for (prod in dataAboutProducts.breakfast) {
+                            sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
+                            sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
+                            sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
+                            sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
+                        }
+                    if (dataAboutProducts.lunchtime.size > 0)
+                        for (prod in dataAboutProducts.lunchtime) {
+                            sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
+                            sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
+                            sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
+                            sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
+                        }
+                    if (dataAboutProducts.snacks.size > 0)
+                        for (prod in dataAboutProducts.snacks) {
+                            sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
+                            sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
+                            sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
+                            sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
+                        }
+                    if (dataAboutProducts.dinner.size > 0)
+                        for (prod in dataAboutProducts.dinner) {
+                            sum_calory = sum_calory?.plus(prod.calories?.toLong()!!)
+                            sum_fats = sum_fats?.plus(prod.fats?.toLong()!!)
+                            sum_carbohydrates = sum_carbohydrates?.plus(prod.carbohydrates?.toLong()!!)
+                            sum_proteins = sum_proteins?.plus(prod.proteins?.toLong()!!)
+                        }
+                    dataAboutProducts.actual_calory = sum_calory
+                    dataAboutProducts.actual_carbohydrates = sum_carbohydrates
+                    dataAboutProducts.actual_fats = sum_fats
+                    dataAboutProducts.actual_proteins = sum_proteins
 
-                actual_calory = dataAboutProducts.actual_calory?.toInt()
-                actual_fats = dataAboutProducts.actual_fats?.toInt()
-                actual_carbohydrates = dataAboutProducts.actual_carbohydrates?.toInt()
-                actual_proteins = dataAboutProducts.actual_proteins?.toInt()
-                Variables.breakfast_list = dataAboutProducts.breakfast
-                Variables.lunchtime_list = dataAboutProducts.lunchtime
-                Variables.snacks_list = dataAboutProducts.snacks
-                Variables.dinner_list = dataAboutProducts.dinner
-                Log.v("Success", "Succesfully get data from db")
-            } else {
-                val day_data = it.createObject(days_value::class.java, ObjectId())
-                day_data.owner_id = Variables.app?.currentUser()?.id
-                day_data.breakfast.addAll(Variables.breakfast_list)
-                day_data.lunchtime.addAll(Variables.lunchtime_list)
-                day_data.snacks.addAll(Variables.snacks_list)
-                day_data.dinner.addAll(Variables.dinner_list)
-                day_data.actual_calory = 0
-                day_data.actual_carbohydrates = 0
-                day_data.actual_fats = 0
-                day_data.actual_proteins = 0
-                day_data.date = parse_date
-                Log.v("Failed", "Succesfully insert data to db")
+                    actual_calory = dataAboutProducts.actual_calory?.toInt()
+                    actual_fats = dataAboutProducts.actual_fats?.toInt()
+                    actual_carbohydrates = dataAboutProducts.actual_carbohydrates?.toInt()
+                    actual_proteins = dataAboutProducts.actual_proteins?.toInt()
+                    Variables.breakfast_list = dataAboutProducts.breakfast
+                    Variables.lunchtime_list = dataAboutProducts.lunchtime
+                    Variables.snacks_list = dataAboutProducts.snacks
+                    Variables.dinner_list = dataAboutProducts.dinner
+                    Log.v("Success", "Succesfully get data from db")
+                } else {
+                    val day_data = it.createObject(days_value::class.java, ObjectId())
+                    day_data.owner_id = Variables.app?.currentUser()?.id
+                    day_data.breakfast.addAll(Variables.breakfast_list)
+                    day_data.lunchtime.addAll(Variables.lunchtime_list)
+                    day_data.snacks.addAll(Variables.snacks_list)
+                    day_data.dinner.addAll(Variables.dinner_list)
+                    day_data.actual_calory = 0
+                    day_data.actual_carbohydrates = 0
+                    day_data.actual_fats = 0
+                    day_data.actual_proteins = 0
+                    day_data.date = parse_date
+                    Log.v("Failed", "Succesfully insert data to db")
+                }
             }
-        }
     }
 
 
