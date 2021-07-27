@@ -1,7 +1,10 @@
 package com.example.calory_calculator
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Log
+import android.widget.Toast
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.mongodb.App
@@ -44,5 +47,7 @@ public class MyApplication : Application(){
         val tzone = TimeZone.getTimeZone("Europe/Warsaw")
         TimeZone.setDefault(tzone)
     }
+
+
 }
 

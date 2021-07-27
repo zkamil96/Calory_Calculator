@@ -3,6 +3,7 @@
     package="com.example.calory_calculator">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -12,10 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calory_Calculator">
-        <activity android:name=".Graph"
+        <activity android:name=".NoNetworkConnection"></activity>
+        <activity
+            android:name=".Graph"
             android:label="@string/title_activity_graph"
-            android:parentActivityName=".Statistics">
-        </activity>
+            android:parentActivityName=".Statistics"></activity>
         <activity android:name=".AccoutHasBeenConfirmed">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -34,7 +36,7 @@
         <activity
             android:name=".Food_list"
             android:label="@string/title_activity_foodlist"
-            android:parentActivityName=".Statistics"/>
+            android:parentActivityName=".Statistics" />
         <activity android:name=".Reset_password">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

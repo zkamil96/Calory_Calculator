@@ -1,37 +1,30 @@
 package com.example.calory_calculator
 
-import android.content.DialogInterface
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.util.Patterns
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
-import com.example.calory_calculator.MODELS.*
+import com.example.calory_calculator.MODELS.calory_value
+import com.example.calory_calculator.MODELS.days_value
 import io.realm.Realm
-import io.realm.RealmList
-import io.realm.kotlin.syncSession
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
 import org.bson.types.ObjectId
-import java.io.Serializable
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalQueries.localDate
 import java.util.*
 
 
@@ -85,6 +78,10 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
+            if(!isWifiConnected(applicationContext)){
+                val intent = Intent(this, NoNetworkConnection::class.java)
+                startActivity(intent)
+            }
 
         Variables.fav_or_not = false
         if(!realm.isAutoRefresh){
@@ -102,7 +99,6 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         snacks_btn = findViewById(R.id.snacks_button)
         dinner_btn = findViewById(R.id.dinner_button)
         var dialog = Date_Dialog()
-        Log.v("dlaczegodata", date_btn?.text.toString())
 
         date_btn?.setOnClickListener {
             if(!dialog.isAdded()){
@@ -191,6 +187,36 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                 }
             }
     }
+    companion object {
+        fun isWifiConnected(context: Context?): Boolean {
+            val cm = context!!.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+            if (context != null) {
+                if (Build.VERSION.SDK_INT < 23) {
+                    val mWiFiNetworkInfo = cm.activeNetworkInfo
+                    if (mWiFiNetworkInfo != null) {
+                        if (mWiFiNetworkInfo.type == ConnectivityManager.TYPE_WIFI) { //WIFI
+                            return true
+                        } else if (mWiFiNetworkInfo.type == ConnectivityManager.TYPE_MOBILE) { //Mobile data
+                            return true
+                        }
+                    }
+                } else {
+                    val network = cm.activeNetwork
+                    if (network != null) {
+                        val nc = cm.getNetworkCapabilities(network)
+                        if (nc != null) {
+                            if (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) { //WIFI
+                                return true
+                            } else if (nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) { //Mobile data
+                                return true
+                            }
+                        }
+                    }
+                }
+            }
+            return false
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -217,9 +243,6 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     private fun showActualDataFromDB() {
             realm.executeTransaction {
                 var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
-                Log.v("dlaczegotoniedziala2", realm.toString())
-                Log.v("dlaczegotoniedziala", dataAboutProducts.toString())
-
                 if (dataAboutProducts != null) {
                     if (dataAboutProducts.breakfast.size > 0)
                         for (prod in dataAboutProducts.breakfast) {

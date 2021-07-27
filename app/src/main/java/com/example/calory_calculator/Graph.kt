@@ -1,5 +1,6 @@
 package com.example.calory_calculator
 
+import android.content.Intent
 import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.os.Bundle
 import android.util.Log
@@ -31,6 +32,10 @@ class Graph : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graph)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         var graph: BarChart = findViewById(R.id.graph_bar)
         var date_now = LocalDate.now()
         var parse_date = Date.from(date_now.atStartOfDay(ZoneId.systemDefault()).toInstant())

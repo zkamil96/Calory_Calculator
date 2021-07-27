@@ -33,25 +33,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorlightblack"
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/colorOnPrimary" />
 
                 <TextView
                     android:id="@+id/amount_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorlightblack"
                     android:gravity="center"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/colorOnPrimary" />
 
                 <ImageButton
                     android:id="@+id/recycler_button_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:srcCompat="@android:drawable/ic_delete" />
+                    android:background="@color/colorlightblack"
+                    android:backgroundTint="@color/colorlightblack"
+                    app:srcCompat="@drawable/ic_delete_item" />
             </LinearLayout>
 
             <LinearLayout
@@ -64,28 +70,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorlightblack"
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/colorOnPrimary" />
 
                 <TextView
                     android:id="@+id/carbohydrates_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorlightblack"
                     android:gravity="center"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/colorOnPrimary" />
 
                 <TextView
                     android:id="@+id/proteins_recycler"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@color/colorlightblack"
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/colorOnPrimary" />
             </LinearLayout>
         </LinearLayout>
 

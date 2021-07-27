@@ -4,32 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AccoutHasBeenConfirmed">
+    tools:context=".NoNetworkConnection">
 
     <TextView
-        android:id="@+id/confirmed_acc_text"
-        android:layout_width="258dp"
-        android:layout_height="96dp"
-        android:layout_marginStart="77dp"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="77dp"
+        android:id="@+id/no_internet_text"
+        android:layout_width="245dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="42dp"
+        android:layout_marginEnd="83dp"
+        android:layout_marginBottom="620dp"
         android:gravity="center"
+        android:text="You have no internet connection. Check your internet connection and click button."
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/gotologin"
+        android:id="@+id/no_internet_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="138dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="139dp"
+        android:layout_marginStart="156dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="156dp"
+        android:layout_marginBottom="543dp"
         android:backgroundTint="@color/btn_color"
-        android:text="Go to login "
+        android:text="Refresh"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmed_acc_text" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 import io.realm.Realm
+import io.realm.kotlin.syncSession
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
@@ -30,6 +31,10 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         val password_pattern: Pattern = Pattern.compile("^" +
                 "(?=.*[0-9])" +         //at least 1 digit
                 "(?=.*[a-z])" +         //at least 1 lower case letter
@@ -104,10 +109,10 @@ class Login : AppCompatActivity() {
                                 .build()
                         var realm : Realm = Realm.getInstance(config)
                         realm.refresh()
-                        val intent = Intent(this, Statistics::class.java)
-                        startActivity(intent)
-                        Thread.sleep(3000)
-                        pb.visibility = View.GONE
+                                val intent = Intent(this, Statistics::class.java)
+                                startActivity(intent)
+                                Thread.sleep(3000)
+                                pb.visibility = View.GONE
                     } else {
                         if(it.error.errorMessage.equals("confirmation required")){
                             val intent = Intent(this, ConfirmAccount::class.java)

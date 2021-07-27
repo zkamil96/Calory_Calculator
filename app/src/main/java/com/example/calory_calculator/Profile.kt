@@ -40,6 +40,10 @@ class Profile : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_activity)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         Variables.clear_or_not = false
         if(!realm.isAutoRefresh){
             realm.refresh()

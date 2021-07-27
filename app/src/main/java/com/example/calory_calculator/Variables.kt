@@ -21,4 +21,5 @@ object Variables {
     var dinner_list = emptyList<days_value_dinner>()
     var meal_name:String? = null
     var fav_or_not : Boolean = true
+    var is_network_connected = false
 }

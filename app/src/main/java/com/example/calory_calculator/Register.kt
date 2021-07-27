@@ -24,6 +24,10 @@ class Register : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         val password_pattern:Pattern = Pattern.compile("^" +
                 "(?=.*[0-9])" +         //at least 1 digit
                 "(?=.*[a-z])" +         //at least 1 lower case letter

@@ -20,6 +20,7 @@
             android:id="@+id/back_btn"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/btn_color"
             app:srcCompat="@drawable/ic_back_arrow" />
 
         <TextView
@@ -33,6 +34,7 @@
             android:id="@+id/forward_btn"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/btn_color"
             app:srcCompat="@drawable/ic_forward_arrow" />
 
     </LinearLayout>

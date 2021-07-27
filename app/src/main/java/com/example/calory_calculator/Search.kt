@@ -48,6 +48,10 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         Variables.fav_or_not = false
         var adapter = MyAdapter(this)

@@ -22,8 +22,6 @@ class Date_Dialog : DialogFragment() {
     ): View? {
         var rootView: View = inflater.inflate(R.layout.date_dialog, container, false)
         var calendar_view = rootView.findViewById<CalendarView>(R.id.calendarView)
-        //calendar_view.date = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
-        //var date_btn = rootView.findViewById<Button>(R.id.date_button)
         calendar_view.setOnDateChangeListener { calendar_view, year, month, dayOfMonth ->
             var montht = month + 1
             var monthtWithZero: String? = null
@@ -40,7 +38,6 @@ class Date_Dialog : DialogFragment() {
             }
             var nazwa = "$year-$monthtWithZero-$dayWithZero"
             Log.v("data", nazwa)
-            //val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val parse_date_local = LocalDate.parse(nazwa)
             calendar_view.date = parse_date_local.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli()
             choosenDateInterface?.applyDate(nazwa)

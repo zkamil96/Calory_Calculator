@@ -32,6 +32,10 @@ class History : AppCompatActivity(), HistoryAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         var adapter = HistoryAdapter(this)
         var recyclerView = findViewById<RecyclerView>(R.id.history_recycler)

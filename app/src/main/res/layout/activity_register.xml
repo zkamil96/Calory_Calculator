@@ -67,6 +67,7 @@
         android:layout_width="200dp"
         android:layout_height="70dp"
         android:layout_marginTop="40dp"
+        android:backgroundTint="@color/btn_color"
         android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,11 +77,12 @@
         app:layout_constraintVertical_bias="0.117" />
 
     <ProgressBar
+        android:id="@+id/loadingProgressRegister"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/loadingProgressRegister"
+        android:backgroundTint="@color/btn_color"
         android:indeterminate="true"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

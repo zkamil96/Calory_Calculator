@@ -130,29 +130,6 @@ class CustomDialogFragment: DialogFragment() {
                 meal_choice.setSelection(3)
             }
         }
-/*        if(!Variables.b && !Variables.l && !Variables.s && !Variables.d ){
-            add_btn.visibility = View.GONE
-        }else{
-            add_btn.visibility = View.VISIBLE
-        }*/
-        //Log.v("r", meal_choice.selectedItemPosition.toString())
-/*        var datas = listOf<String>("breakfast", "lunchtime", "snacks", "dinner")
-        //var arrayAdapter = ArrayAdapter<String>(requireContext(),android.R.layout.simple_spinner_item, R.array.meal_entries)
-        var arrayAdapter = ArrayAdapter<String>(requireContext(),android.R.layout.simple_spinner_item, datas)
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
-        meal_choice.adapter = arrayAdapter
-        meal_choice.onItemSelectedListener = object :
-
-        AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                spinner_position = parent?.getItemAtPosition(position).toString()
-            }
-        }*/
-
 
         add_btn.setOnClickListener{
             realm.executeTransaction {

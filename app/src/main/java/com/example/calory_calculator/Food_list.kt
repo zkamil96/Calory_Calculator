@@ -18,6 +18,10 @@ class Food_list : AppCompatActivity(), FoodAdapter.OnItemClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food_list)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         food_list_name = findViewById(R.id.food_list_name)
         food_list_btn = findViewById(R.id.food_list_button)
