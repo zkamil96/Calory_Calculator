@@ -12,7 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/btn_color"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="Choose Date"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/calory_text"
@@ -137,5 +140,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/snacks_button"
         app:layout_constraintTop_toBottomOf="@+id/lunchtime_button" />
+
+
+    <GridLayout
+        android:id="@+id/water_cups_layout"
+        android:layout_width="411dp"
+        android:layout_height="294dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:isScrollContainer="false"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/snacks_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

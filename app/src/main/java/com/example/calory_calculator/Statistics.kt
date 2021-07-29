@@ -2,6 +2,8 @@ package com.example.calory_calculator
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -9,11 +11,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.calory_calculator.MODELS.calory_value
@@ -26,6 +29,8 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.ceil
 
 
 class Statistics : AppCompatActivity(), ChooseDateInterface{
@@ -74,6 +79,10 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     var sum_fats:Long = 0
     var sum_carbohydrates:Long = 0
     var sum_proteins:Long = 0
+    var actual_cups_of_water:Long = 0
+    var actual_amount_of_cups:Int  = 0
+    var water_layout :GridLayout? = null
+    var glassFillStart: AnimationDrawable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +97,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
             realm.refresh()
         }
 
+        water_layout = findViewById(R.id.water_cups_layout)
         calory_number = findViewById(R.id.calory_text)
         fats_number = findViewById(R.id.fats_text)
         carbohydrates_number = findViewById(R.id.carbohydrates_text)
@@ -187,6 +197,98 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                 }
             }
     }
+
+    override fun onStart() {
+        super.onStart()
+        calculateCupsCount()
+        generateImageLayout(actual_amount_of_cups)
+
+    }
+
+    private fun calculateCupsCount(){
+        if(actual_cups_of_water.toInt() == 0){
+            actual_amount_of_cups = 1
+        }else{
+            actual_amount_of_cups = actual_cups_of_water.toInt() + 1
+        }
+    }
+
+    private fun generateImageLayout(size: Int){
+        water_layout?.removeAllViews()
+        var column = 4
+        var row = (size + 4 - 1)/4
+        water_layout?.columnCount = column
+        water_layout?.rowCount = row
+
+            var i = 0
+            var c = 0
+            var r = 0
+            while (i < size) {
+                if (c == column) {
+                    c = 0
+                    r++
+                }
+                val oImageView = ImageView(this)
+                    oImageView.id = i
+                if(i + 1 == size){
+                    oImageView.apply {
+                        this.setBackgroundResource(R.drawable.fill_bottle_animation)
+                        glassFillStart = background as AnimationDrawable
+                    }
+                }else{
+                    oImageView.apply {
+                        this.setBackgroundResource(R.drawable.unfill_bottle_animation)
+                        glassFillStart = background as AnimationDrawable
+                    }
+                }
+                val param: GridLayout.LayoutParams = GridLayout.LayoutParams()
+                param.height = 200
+                param.width = 200
+                param.leftMargin = 60
+                param.topMargin = 30
+                param.setGravity(Gravity.CENTER)
+                param.columnSpec = GridLayout.spec(c)
+                param.rowSpec = GridLayout.spec(r)
+                oImageView.layoutParams = param
+
+                oImageView.setOnClickListener {
+                    if(it.id == size - 1){
+                        glassFillStart?.start()
+                        actual_cups_of_water++
+                        realm.executeTransaction {
+                            var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                            if(dataAboutProducts != null){
+                                dataAboutProducts.cups_of_water = actual_cups_of_water
+                            }
+                        }
+                        calculateCupsCount()
+                        generateImageLayout(actual_amount_of_cups)
+
+                    }
+                    if(it.id < size - 1){
+                        it.apply {
+                            this.setBackgroundResource(R.drawable.unfill_bottle_animation)
+                            glassFillStart = background as AnimationDrawable
+                        }
+                        glassFillStart?.start()
+                        actual_cups_of_water = it.id.toLong()
+                        realm.executeTransaction {
+                            var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
+                            if(dataAboutProducts != null){
+                                dataAboutProducts.cups_of_water = actual_cups_of_water
+                            }
+                        }
+                        calculateCupsCount()
+                        generateImageLayout(actual_amount_of_cups)
+                    }
+                }
+                water_layout?.addView(oImageView)
+                i++
+                c++
+            }
+        water_layout?.refreshDrawableState()
+    }
+
     companion object {
         fun isWifiConnected(context: Context?): Boolean {
             val cm = context!!.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -277,6 +379,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     dataAboutProducts.actual_fats = sum_fats
                     dataAboutProducts.actual_proteins = sum_proteins
 
+                    actual_cups_of_water = dataAboutProducts.cups_of_water!!
                     actual_calory = dataAboutProducts.actual_calory?.toInt()
                     actual_fats = dataAboutProducts.actual_fats?.toInt()
                     actual_carbohydrates = dataAboutProducts.actual_carbohydrates?.toInt()
@@ -298,6 +401,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     day_data.actual_fats = 0
                     day_data.actual_proteins = 0
                     day_data.date = parse_date
+                    day_data.cups_of_water = 0
                     Log.v("Failed", "Succesfully insert data to db")
                 }
             }
@@ -386,6 +490,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         realm.executeTransaction {
             val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
             if(dataAboutProducts != null){
+                actual_cups_of_water = dataAboutProducts.cups_of_water!!
                 actual_calory = dataAboutProducts.actual_calory?.toInt()
                 actual_fats = dataAboutProducts.actual_fats?.toInt()
                 actual_carbohydrates = dataAboutProducts.actual_carbohydrates?.toInt()
@@ -407,6 +512,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                 day_data.actual_fats = 0
                 day_data.actual_proteins = 0
                 day_data.date = parse_date
+                day_data.cups_of_water = 0
                 Log.v("Failed", "Succesfully insert data to db")
             }
         }
@@ -414,5 +520,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         fats_number?.text = " Fats \n\n $actual_fats/$dec_fats g"
         carbohydrates_number?.text = " Carbohydrates \n\n $actual_carbohydrates/$dec_carbohydrates g"
         proteins_number?.text = " Proteins \n\n $actual_proteins/$dec_proteins g"
+        calculateCupsCount()
+        generateImageLayout(actual_amount_of_cups)
     }
 }
