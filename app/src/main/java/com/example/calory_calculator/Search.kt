@@ -42,9 +42,6 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
     var realm : Realm = Realm.getInstance(config)
     var search_value_button : ImageButton ? = null
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)

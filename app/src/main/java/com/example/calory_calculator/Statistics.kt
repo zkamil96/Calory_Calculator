@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.calory_calculator.MODELS.calory_value
 import com.example.calory_calculator.MODELS.days_value
+import com.example.calory_calculator.MODELS.days_value_lunchtime
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
@@ -58,9 +59,6 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     var age_value: String? = null
     var physical_activity_value: String? = null
     var destination_value: String? = null
-    var water_reminder_value: Boolean? = null
-    var eat_reminder_value: Boolean? = null
-
     var calory_number:TextView? = null
     var fats_number:TextView? = null
     var carbohydrates_number:TextView? = null
@@ -103,7 +101,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         carbohydrates_number = findViewById(R.id.carbohydrates_text)
         proteins_number = findViewById(R.id.proteins_text)
         date_btn = findViewById(R.id.date_button)
-        date_btn?.text = LocalDate.now().toString()
+        date_btn?.text = Variables.choosen_date.toString()
         breakfast_btn = findViewById(R.id.breakfast_button)
         lunchtime_btn = findViewById(R.id.lunchtime_button)
         snacks_btn = findViewById(R.id.snacks_button)
@@ -384,18 +382,10 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     actual_fats = dataAboutProducts.actual_fats?.toInt()
                     actual_carbohydrates = dataAboutProducts.actual_carbohydrates?.toInt()
                     actual_proteins = dataAboutProducts.actual_proteins?.toInt()
-                    Variables.breakfast_list = dataAboutProducts.breakfast
-                    Variables.lunchtime_list = dataAboutProducts.lunchtime
-                    Variables.snacks_list = dataAboutProducts.snacks
-                    Variables.dinner_list = dataAboutProducts.dinner
                     Log.v("Success", "Succesfully get data from db")
                 } else {
                     val day_data = it.createObject(days_value::class.java, ObjectId())
                     day_data.owner_id = Variables.app?.currentUser()?.id
-                    day_data.breakfast.addAll(Variables.breakfast_list)
-                    day_data.lunchtime.addAll(Variables.lunchtime_list)
-                    day_data.snacks.addAll(Variables.snacks_list)
-                    day_data.dinner.addAll(Variables.dinner_list)
                     day_data.actual_calory = 0
                     day_data.actual_carbohydrates = 0
                     day_data.actual_fats = 0
@@ -486,7 +476,13 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     override fun applyDate(choosenDate: String) {
         date_btn?.text = choosenDate
         val parse_date_local = LocalDate.parse(date_btn?.text, DateTimeFormatter.ISO_DATE)
+        Variables.choosen_date = parse_date_local
         parse_date = Date.from(parse_date_local.atStartOfDay(ZoneId.systemDefault()).toInstant())
+        actual_cups_of_water = 0
+        actual_calory = 0
+        actual_fats = 0
+        actual_carbohydrates = 0
+        actual_proteins = 0
         realm.executeTransaction {
             val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
             if(dataAboutProducts != null){
@@ -495,18 +491,10 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                 actual_fats = dataAboutProducts.actual_fats?.toInt()
                 actual_carbohydrates = dataAboutProducts.actual_carbohydrates?.toInt()
                 actual_proteins = dataAboutProducts.actual_proteins?.toInt()
-                Variables.breakfast_list = dataAboutProducts.breakfast
-                Variables.lunchtime_list = dataAboutProducts.lunchtime
-                Variables.snacks_list = dataAboutProducts.snacks
-                Variables.dinner_list = dataAboutProducts.dinner
                 Log.v("Success", "Succesfully get data from db")
             }else{
                 val day_data = it.createObject(days_value::class.java, ObjectId())
                 day_data.owner_id = Variables.app?.currentUser()?.id
-                day_data.breakfast.addAll(Variables.breakfast_list)
-                day_data.lunchtime.addAll(Variables.lunchtime_list)
-                day_data.snacks.addAll(Variables.snacks_list)
-                day_data.dinner.addAll(Variables.dinner_list)
                 day_data.actual_calory = 0
                 day_data.actual_carbohydrates = 0
                 day_data.actual_fats = 0

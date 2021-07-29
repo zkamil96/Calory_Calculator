@@ -105,7 +105,6 @@ class CustomDialogFragment: DialogFragment() {
             }
         })
         realm.executeTransaction {
-            //val dataFromProfile = it.where<history_value>().findFirst()
                 val history_val = it.createObject(history_value::class.java, ObjectId())
                 history_val.owner_id = Variables.app?.currentUser()?.id
                 history_val.product_id = id_values?.toLong()
@@ -114,7 +113,7 @@ class CustomDialogFragment: DialogFragment() {
                 history_val.date = search_date
                 Log.v("profile", "Successfully insert data in history")
         }
-        var actual_date = LocalDate.now()
+        var actual_date = Variables.choosen_date
         var parse_date = Date.from(actual_date.atStartOfDay(ZoneId.systemDefault()).toInstant())
         when{
             Variables.meal_name == "breakfast" -> {

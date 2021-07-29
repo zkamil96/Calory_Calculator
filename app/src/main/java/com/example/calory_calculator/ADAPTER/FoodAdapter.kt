@@ -55,7 +55,7 @@ class FoodAdapter (
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        var actual_date = LocalDate.now()
+        var actual_date = Variables.choosen_date
         var parse_date = Date.from(actual_date.atStartOfDay(ZoneId.systemDefault()).toInstant())
         if(myList.isNotEmpty()){
             holder.name_recycler?.text =  "Product name: \n" + myList[position].name

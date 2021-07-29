@@ -9,12 +9,10 @@ import androidx.preference.*
 class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
-       // var growth_preference = preferenceScreen.findPreference<EditTextPreference>("growth")
 
         val growth_preference = findPreference("growth") as EditTextPreference?
         val weight_preference = findPreference("weight") as EditTextPreference?
         val age_preference = findPreference("age") as EditTextPreference?
-
 
         growth_preference!!.setOnBindEditTextListener {
             editText -> editText.inputType = InputType.TYPE_CLASS_NUMBER

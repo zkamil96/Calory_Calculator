@@ -37,7 +37,7 @@ class Graph : AppCompatActivity() {
             startActivity(intent)
         }
         var graph: BarChart = findViewById(R.id.graph_bar)
-        var date_now = LocalDate.now()
+        var date_now = Variables.choosen_date
         var parse_date = Date.from(date_now.atStartOfDay(ZoneId.systemDefault()).toInstant())
         var date_last_week = Date.from(date_now.minusWeeks(1).atStartOfDay(ZoneId.systemDefault()).toInstant())
         var date_plus_one_day = Date.from(date_now.plusDays(1).atStartOfDay(ZoneId.systemDefault()).toInstant())

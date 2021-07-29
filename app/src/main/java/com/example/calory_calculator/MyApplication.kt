@@ -23,14 +23,6 @@ public class MyApplication : Application(){
     override fun onCreate() {
         super.onCreate()
         Realm.init(this)
-/*        val configuration = RealmConfiguration.Builder()
-                .name("Calory_Calculator")
-                .allowQueriesOnUiThread(true)
-                .allowWritesOnUiThread(true)
-                .build()
-
-        Realm.setDefaultConfiguration(configuration)*/
-
         val handler =
             SyncSession.ClientResetHandler { session, error ->
                 Log.e(
