@@ -45,17 +45,5 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/reminders_header">
-
-        <SwitchPreferenceCompat
-            app:key="water_reminder"
-            app:title="@string/water_title" />
-
-        <SwitchPreferenceCompat
-            app:key="eat_reminder"
-            app:title="@string/eat_title" />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>
 

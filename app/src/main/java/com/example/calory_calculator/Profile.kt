@@ -34,8 +34,6 @@ class Profile : AppCompatActivity() {
         var age_value: String? = null
         var physical_activity_value: String? = null
         var destination_value: String? = null
-        var water_reminder_value: Boolean? = false
-        var eat_reminder_value: Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +64,6 @@ class Profile : AppCompatActivity() {
                     editor?.putString("age", dataFromProfile?.age.toString())
                     editor?.putString("physical_activity", dataFromProfile?.physical_activity)
                     editor?.putString("destination", dataFromProfile?.destination)
-                    editor?.putBoolean("water_reminder", dataFromProfile?.water_reminder!!)
-                    editor?.putBoolean("eat_reminder", dataFromProfile?.meals_reminder!!)
                     editor?.apply()
                     Log.v("profile", "Successfully get data from realm")
                 }else{
@@ -93,8 +89,6 @@ class Profile : AppCompatActivity() {
                 age_value = preferences?.getString("age", null)
                 physical_activity_value = preferences?.getString("physical_activity", null)
                 destination_value = preferences?.getString("destination", null)
-                water_reminder_value = preferences?.getBoolean("water_reminder", false)
-                eat_reminder_value = preferences?.getBoolean("eat_reminder", false)
 
                 if (!gender_value.isNullOrBlank() && !growth_value.isNullOrBlank() && !weight_value.isNullOrBlank()
                         && !age_value.isNullOrBlank() && !physical_activity_value.isNullOrBlank() && !destination_value.isNullOrBlank() && growth_value?.toInt() != 0 && weight_value?.toInt() != 0 && age_value?.toInt() != 0){
@@ -106,10 +100,8 @@ class Profile : AppCompatActivity() {
                                 dataFromProfile.destination = destination_value
                                 dataFromProfile.gender = gender_value
                                 dataFromProfile.growth = growth_value?.toLong()
-                                dataFromProfile.meals_reminder = eat_reminder_value
                                 dataFromProfile.owner_id = Variables.app?.currentUser()?.id
                                 dataFromProfile.physical_activity = physical_activity_value
-                                dataFromProfile.water_reminder = water_reminder_value
                                 dataFromProfile.weight = weight_value?.toLong()
                                 Log.v("profile", "Successfully update data in realm")
                             } else {
@@ -118,10 +110,8 @@ class Profile : AppCompatActivity() {
                                 calory_val.destination = destination_value
                                 calory_val.gender = gender_value
                                 calory_val.growth = growth_value?.toLong()
-                                calory_val.meals_reminder = eat_reminder_value
                                 calory_val.owner_id = Variables.app?.currentUser()?.id
                                 calory_val.physical_activity = physical_activity_value
-                                calory_val.water_reminder = water_reminder_value
                                 calory_val.weight = weight_value?.toLong()
                                 Log.v("profile", "Successfully insert data in realm")
                             }

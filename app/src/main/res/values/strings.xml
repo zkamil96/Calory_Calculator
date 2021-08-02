@@ -31,7 +31,6 @@
 
     <!-- Preference Titles -->
     <string name="personal_data_header">Personal Data</string>
-    <string name="reminders_header">Reminders</string>
 
     <!-- Messages Preferences -->
     <string name="growth_title">Growth</string>
@@ -40,8 +39,6 @@
     <string name="age_title">Age</string>
 
     <!-- Sync Preferences -->
-    <string name="water_title">Water Reminder</string>
-    <string name="eat_title">Meals Reminder</string>
     <string name="physical_activity_title">Physical Activity</string>
     <string name="destination_title">Destination</string>
     <string name="save_preference_button_title">Save Settings</string>

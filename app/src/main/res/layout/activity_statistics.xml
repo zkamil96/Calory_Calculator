@@ -6,155 +6,150 @@
     android:layout_height="match_parent"
     tools:context=".Statistics">
 
-
-    <Button
-        android:id="@+id/date_button"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/btn_color"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="Choose Date"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/calory_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/calory_text"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/colorlightblack"
-        android:gravity="center"
-        android:textColor="@color/colorOnPrimary"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date_button" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/colorlightblack"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calory_text">
-
-        <TextView
-            android:id="@+id/fats_text"
-            android:layout_width="137dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorlightblack"
-            android:gravity="center"
-            android:textColor="@color/colorOnPrimary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/carbohydrates_text"
-            android:layout_width="137dp"
-            android:layout_height="match_parent"
-            android:background="@color/colorlightblack"
-            android:gravity="center"
-            android:textColor="@color/colorOnPrimary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/proteins_text"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorlightblack"
-            android:gravity="center"
-            android:textColor="@color/colorOnPrimary"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <Button
+                android:id="@+id/date_button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/btn_color"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Choose Date"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/breakfast_button"
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/btn_color"
-        android:text="@string/breakfast"
-        app:cornerRadius="@dimen/cardview_default_radius"
-        app:layout_constraintBottom_toTopOf="@+id/snacks_button"
-        app:layout_constraintEnd_toStartOf="@+id/lunchtime_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+            <TextView
+                android:id="@+id/calory_text"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/colorlightblack"
+                android:gravity="center"
+                android:textColor="@color/colorOnPrimary"
+                android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/lunchtime_button"
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/btn_color"
-        android:text="@string/lunchtime"
-        app:cornerRadius="@dimen/cardview_default_radius"
-        app:layout_constraintBottom_toTopOf="@+id/dinner_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/breakfast_button"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@color/colorlightblack"
+                android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/snacks_button"
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="2dp"
-        android:backgroundTint="@color/btn_color"
-        android:text="@string/snacks"
-        app:cornerRadius="@dimen/cardview_default_radius"
-        app:layout_constraintEnd_toStartOf="@+id/dinner_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/breakfast_button" />
+                <TextView
+                    android:id="@+id/fats_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorlightblack"
+                    android:gravity="center"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/dinner_button"
-        android:layout_width="180dp"
-        android:layout_height="75dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="20dp"
-        android:backgroundTint="@color/btn_color"
-        android:text="@string/dinner"
-        app:cornerRadius="@dimen/cardview_default_radius"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/snacks_button"
-        app:layout_constraintTop_toBottomOf="@+id/lunchtime_button" />
+                <TextView
+                    android:id="@+id/carbohydrates_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorlightblack"
+                    android:gravity="center"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/proteins_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/colorlightblack"
+                    android:gravity="center"
+                    android:textColor="@color/colorOnPrimary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-    <GridLayout
-        android:id="@+id/water_cups_layout"
-        android:layout_width="411dp"
-        android:layout_height="294dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        android:isScrollContainer="false"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/snacks_button" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/breakfast_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/btn_color"
+                        android:text="@string/breakfast"
+                        app:cornerRadius="@dimen/cardview_default_radius" />
+
+                    <Button
+                        android:id="@+id/lunchtime_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/btn_color"
+                        android:text="@string/lunchtime"
+                        app:cornerRadius="@dimen/cardview_default_radius" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/snacks_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/btn_color"
+                        android:text="@string/snacks"
+                        app:cornerRadius="@dimen/cardview_default_radius" />
+
+                    <Button
+                        android:id="@+id/dinner_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/btn_color"
+                        android:text="@string/dinner"
+                        app:cornerRadius="@dimen/cardview_default_radius" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/water_cups_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:isScrollContainer="false"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/snacks_button" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

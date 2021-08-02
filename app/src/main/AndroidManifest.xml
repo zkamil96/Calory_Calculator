@@ -13,12 +13,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Calory_Calculator">
-        <activity android:name=".NoNetworkConnection"></activity>
+        <activity
+            android:name=".NoNetworkConnection"
+            android:screenOrientation="locked"></activity>
         <activity
             android:name=".Graph"
             android:label="@string/title_activity_graph"
+            android:screenOrientation="locked"
             android:parentActivityName=".Statistics"></activity>
-        <activity android:name=".AccoutHasBeenConfirmed">
+        <activity
+            android:name=".AccoutHasBeenConfirmed"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -31,11 +36,16 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConfirmAccount" />
-        <activity android:name=".Insert_Email_To_Reset" />
+        <activity
+            android:name=".ConfirmAccount"
+            android:screenOrientation="locked"/>
+        <activity
+            android:name=".Insert_Email_To_Reset"
+            android:screenOrientation="locked"/>
         <activity
             android:name=".Food_list"
             android:label="@string/title_activity_foodlist"
+            android:screenOrientation="locked"
             android:parentActivityName=".Statistics" />
         <activity android:name=".Reset_password">
             <intent-filter>
@@ -53,28 +63,35 @@
         <activity
             android:name=".History"
             android:label="@string/title_activity_history"
+            android:screenOrientation="locked"
             android:parentActivityName=".Statistics" />
         <activity
             android:name=".Favorite_products"
             android:label="@string/title_activity_favorite_products"
+            android:screenOrientation="locked"
             android:parentActivityName=".Statistics" />
         <activity
             android:name=".Search"
             android:label="@string/title_activity_search"
+            android:screenOrientation="locked"
             android:parentActivityName=".Statistics" />
         <activity
             android:name=".Statistics"
-            android:label="@string/title_activity_statistics" />
+            android:label="@string/title_activity_statistics"
+            android:screenOrientation="locked"/>
         <activity
             android:name=".Profile"
             android:label="@string/title_activity_profile"
+            android:screenOrientation="locked"
             android:parentActivityName=".Statistics" />
         <activity
             android:name=".Login"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:screenOrientation="locked"/>
         <activity
             android:name=".Register"
-            android:label="@string/title_activity_register" />
+            android:label="@string/title_activity_register"
+            android:screenOrientation="locked"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
