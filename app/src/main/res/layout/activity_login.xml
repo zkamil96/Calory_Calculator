@@ -6,79 +6,68 @@
     android:layout_height="match_parent"
     tools:context=".Login">
 
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#FFFFFF"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/email_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_wave" />
-
-    <EditText
-        android:id="@+id/email_input"
-        android:layout_width="322dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="152dp"
-        android:drawableRight="@android:drawable/ic_dialog_email"
-        android:ems="10"
-        android:hint="@string/email_value"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <EditText
-        android:id="@+id/password_input"
-        android:layout_width="322dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="52dp"
-        android:drawableRight="@android:drawable/ic_lock_lock"
-        android:ems="10"
-        android:hint="@string/password_value"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_input" />
-
-    <Button
-        android:id="@+id/login_user"
-        android:layout_width="200dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/login"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_input"
-        app:layout_constraintVertical_bias="0.254" />
-
-    <TextView
-        android:id="@+id/password_forgot"
-        android:layout_width="285dp"
-        android:layout_height="26dp"
-        android:gravity="center"
-        android:text="@string/password_forgot"
-        app:layout_constraintBottom_toTopOf="@+id/login_user"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password_input"
-        app:layout_constraintVertical_bias="0.594" />
-
-    <ProgressBar
-        android:id="@+id/loadingProgress"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:indeterminate="true"
-        android:visibility="invisible" />
+        android:layout_marginTop="200dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/email_input"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:drawableRight="@android:drawable/ic_dialog_email"
+            android:ems="10"
+            android:hint="@string/email_value"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="30dp"
+            android:drawableRight="@android:drawable/ic_lock_lock"
+            android:ems="10"
+            android:hint="@string/password_value"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/password_forgot"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/password_forgot" />
+
+        <Button
+            android:id="@+id/login_user"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="@color/btn_color"
+            android:text="@string/login" />
+
+        <ProgressBar
+            android:id="@+id/loadingProgress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:indeterminate="true"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

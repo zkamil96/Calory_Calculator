@@ -19,6 +19,7 @@
             android:id="@+id/image_recycle"
             android:layout_width="100dp"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/colorlightblack"
             android:paddingLeft="10dp" />
 
         <TextView

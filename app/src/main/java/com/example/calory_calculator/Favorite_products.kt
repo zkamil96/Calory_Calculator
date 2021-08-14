@@ -1,5 +1,6 @@
 package com.example.calory_calculator
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -27,6 +28,10 @@ class Favorite_products : AppCompatActivity(), FavoriteListAdapter.OnItemClickLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_products)
+        if(!Statistics.isWifiConnected(applicationContext)){
+            val intent = Intent(this, NoNetworkConnection::class.java)
+            startActivity(intent)
+        }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         var adapter = FavoriteListAdapter(this)
         var recyclerView = findViewById<RecyclerView>(R.id.favorite_products_recycler)

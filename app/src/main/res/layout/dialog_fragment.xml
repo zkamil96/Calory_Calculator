@@ -70,6 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:backgroundTint="@color/btn_color"
                 android:entries="@array/meal_entries"
                 android:spinnerMode="dropdown" />
 
@@ -77,8 +78,9 @@
                 android:id="@+id/dialog_add_button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:visibility="visible"
                 android:layout_weight="1"
+                android:backgroundTint="@color/btn_color"
+                android:visibility="visible"
                 app:srcCompat="@android:drawable/ic_menu_add" />
 
             <ImageButton
@@ -86,6 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:backgroundTint="@color/btn_color"
                 app:srcCompat="@android:drawable/btn_star_big_on" />
         </LinearLayout>
 

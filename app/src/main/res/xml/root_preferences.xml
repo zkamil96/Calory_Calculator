@@ -11,9 +11,9 @@
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
+            android:inputType="number"
             app:key="growth"
             app:title="@string/growth_title"
-            android:inputType="number"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
@@ -42,18 +42,6 @@
             app:title="@string/destination_title"
             app:useSimpleSummaryProvider="true" />
 
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="@string/reminders_header">
-
-        <SwitchPreferenceCompat
-            app:key="water_reminder"
-            app:title="@string/water_title" />
-
-        <SwitchPreferenceCompat
-            app:key="eat_reminder"
-            app:title="@string/eat_title" />
 
     </PreferenceCategory>
 

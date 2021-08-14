@@ -20,20 +20,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#B9F49A"
-            android:gravity="fill_horizontal|fill_vertical"
+            android:background="@color/colorlightblack"
+            android:gravity="fill_vertical"
             android:paddingLeft="30dp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorOnPrimary" />
 
         <TextView
             android:id="@+id/recycle_view_history_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#B9F49A"
+            android:background="@color/colorlightblack"
             android:freezesText="false"
-            android:gravity="fill_horizontal|fill_vertical"
+            android:gravity="fill_vertical"
             android:paddingLeft="30dp"
-            android:textAlignment="viewStart" />
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorOnPrimary" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
