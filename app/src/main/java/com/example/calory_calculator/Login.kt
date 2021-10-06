@@ -1,6 +1,5 @@
 package com.example.calory_calculator
 
-import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,21 +10,9 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 import io.realm.Realm
-import io.realm.kotlin.syncSession
-import io.realm.mongodb.App
-import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
-import io.realm.mongodb.User
-import io.realm.mongodb.mongo.MongoClient
-import io.realm.mongodb.mongo.MongoCollection
-import io.realm.mongodb.mongo.MongoDatabase
 import io.realm.mongodb.sync.SyncConfiguration
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import org.bson.Document
 import java.util.regex.Pattern
-import kotlin.concurrent.thread
 
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,11 +86,11 @@ class Login : AppCompatActivity() {
                     good_email,
                     good_password
                 )
-                Variables.app?.loginAsync(emailPasswordCredentials) {
+                app.loginAsync(emailPasswordCredentials) {
                     if (it.isSuccess) {
-                        val user = Variables.app?.currentUser()
+                        val user = app.currentUser()
                         val config = SyncConfiguration
-                                .Builder(user, Variables.app?.currentUser()?.id)
+                                .Builder(user, app.currentUser()?.id)
                                 .allowQueriesOnUiThread(true)
                                 .allowWritesOnUiThread(true)
                                 .build()
@@ -133,7 +120,7 @@ class Login : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        if(Variables?.app?.currentUser() != null) {
+        if(app.currentUser() != null) {
             val intent = Intent(this, Statistics::class.java)
             startActivity(intent)
         }

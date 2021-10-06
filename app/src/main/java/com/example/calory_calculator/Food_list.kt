@@ -3,27 +3,24 @@ package com.example.calory_calculator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.calory_calculator.ADAPTER.FoodAdapter
-import com.example.calory_calculator.ADAPTER.MyAdapter
 import com.example.calory_calculator.MODELS.*
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
-import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
 
 class Food_list : AppCompatActivity(), FoodAdapter.OnItemClickListener {
     var food_list_name:TextView? = null
     var food_list_btn:ImageButton? = null
-    val user = Variables.app?.currentUser()
+    val user = app.currentUser()
     val config = SyncConfiguration
-            .Builder(user, Variables.app?.currentUser()?.id)
+            .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()

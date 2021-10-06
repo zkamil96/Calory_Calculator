@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 
@@ -21,7 +20,7 @@ class AccoutHasBeenConfirmed : AppCompatActivity() {
         uri = intent.data
         token = uri?.getQueryParameter("token")
         tokenid = uri?.getQueryParameter("tokenId")
-        Variables.app?.emailPassword?.confirmUserAsync(token,tokenid){
+        app.emailPassword?.confirmUserAsync(token,tokenid){
             if(it.isSuccess){
                 confirmed_accout.text = "Accout has been confirmed"
             }else{

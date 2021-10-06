@@ -74,7 +74,7 @@ class Reset_password : AppCompatActivity() {
 
         create_new_password?.setOnClickListener(){
             if(hash_password != null){
-                Variables.app?.emailPassword?.resetPasswordAsync(token,tokenid,confirm_password_input?.text.toString()){
+                app.emailPassword?.resetPasswordAsync(token,tokenid,confirm_password_input?.text.toString()){
                     if (it.isSuccess) {
                         Toast.makeText(this,"Password has been changed. You can login now", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, Login::class.java)

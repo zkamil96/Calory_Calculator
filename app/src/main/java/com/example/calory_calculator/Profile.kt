@@ -5,25 +5,19 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.calory_calculator.MODELS.calory_value
-import io.realm.ObjectChangeSet
 import io.realm.Realm
 import io.realm.kotlin.where
-import io.realm.mongodb.mongo.MongoClient
-import io.realm.mongodb.mongo.MongoCollection
-import io.realm.mongodb.mongo.MongoDatabase
 import io.realm.mongodb.sync.SyncConfiguration
-import org.bson.Document
 import org.bson.types.ObjectId
 
 class Profile : AppCompatActivity() {
-        val user = Variables.app?.currentUser()
+        val user = app.currentUser()
         val config = SyncConfiguration
-            .Builder(user, Variables.app?.currentUser()?.id)
+            .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
@@ -100,7 +94,7 @@ class Profile : AppCompatActivity() {
                                 dataFromProfile.destination = destination_value
                                 dataFromProfile.gender = gender_value
                                 dataFromProfile.growth = growth_value?.toLong()
-                                dataFromProfile.owner_id = Variables.app?.currentUser()?.id
+                                dataFromProfile.owner_id = app.currentUser()?.id
                                 dataFromProfile.physical_activity = physical_activity_value
                                 dataFromProfile.weight = weight_value?.toLong()
                                 Log.v("profile", "Successfully update data in realm")
@@ -110,7 +104,7 @@ class Profile : AppCompatActivity() {
                                 calory_val.destination = destination_value
                                 calory_val.gender = gender_value
                                 calory_val.growth = growth_value?.toLong()
-                                calory_val.owner_id = Variables.app?.currentUser()?.id
+                                calory_val.owner_id = app.currentUser()?.id
                                 calory_val.physical_activity = physical_activity_value
                                 calory_val.weight = weight_value?.toLong()
                                 Log.v("profile", "Successfully insert data in realm")

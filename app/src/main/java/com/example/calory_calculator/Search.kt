@@ -12,30 +12,24 @@ import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.calory_calculator.ADAPTER.FavoriteListAdapter
 import com.example.calory_calculator.ADAPTER.MyAdapter
 import com.example.calory_calculator.API.ApiService
 import com.example.calory_calculator.MODELS.Prod
-import com.example.calory_calculator.MODELS.days_value
-import com.example.calory_calculator.MODELS.favorite_list_value
 import io.realm.Realm
-import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatterBuilder
 import java.util.*
 
 class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
-    val user = Variables.app?.currentUser()
+    val user = app.currentUser()
     val config = SyncConfiguration
-        .Builder(user, Variables.app?.currentUser()?.id)
+        .Builder(user, app.currentUser()?.id)
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
         .build()

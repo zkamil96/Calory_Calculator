@@ -3,7 +3,6 @@ package com.example.calory_calculator
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -16,12 +15,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
-import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.calory_calculator.MODELS.calory_value
 import com.example.calory_calculator.MODELS.days_value
-import com.example.calory_calculator.MODELS.days_value_lunchtime
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
@@ -30,14 +27,12 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.math.ceil
 
 
 class Statistics : AppCompatActivity(), ChooseDateInterface{
-    val user = Variables.app?.currentUser()
+    val user = app.currentUser()
     val config = SyncConfiguration
-            .Builder(user, Variables.app?.currentUser()?.id)
+            .Builder(user, user?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
@@ -116,24 +111,10 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
 
         val parse_date_local = LocalDate.parse(date_btn?.text, DateTimeFormatter.ISO_DATE)
         parse_date = Date.from(parse_date_local.atStartOfDay(ZoneId.systemDefault()).toInstant())
-
         showActualDataFromDB()
 
         val listener = View.OnClickListener { view ->
-            when (view.getId()) {
-                R.id.breakfast_button -> {
-                    Variables.meal_name = "breakfast"
-                }
-                R.id.lunchtime_button -> {
-                    Variables.meal_name = "lunchtime"
-                }
-                R.id.snacks_button -> {
-                    Variables.meal_name = "snacks"
-                }
-                R.id.dinner_button -> {
-                    Variables.meal_name = "dinner"
-                }
-            }
+            changeMealName(view)
             val intent = Intent(this, Food_list::class.java)
             startActivity(intent)
         }
@@ -145,7 +126,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
 
 
             realm.executeTransaction{
-                val dataFromProfile = it.where<calory_value>().findFirst()
+                val dataFromProfile = it.where<calory_value>().equalTo("owner_id", user?.id).findFirst()
                 if(dataFromProfile != null) {
                     gender_value = dataFromProfile.gender
                     growth_value = dataFromProfile.growth.toString()
@@ -385,7 +366,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     Log.v("Success", "Succesfully get data from db")
                 } else {
                     val day_data = it.createObject(days_value::class.java, ObjectId())
-                    day_data.owner_id = Variables.app?.currentUser()?.id
+                    day_data.owner_id = user?.id
                     day_data.actual_calory = 0
                     day_data.actual_carbohydrates = 0
                     day_data.actual_fats = 0
@@ -427,8 +408,8 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                 startActivity(intent)
             }
             R.id.item6 -> {
-                if (Variables.app?.currentUser()?.isLoggedIn!!) {
-                    Variables.app?.currentUser()?.logOutAsync {
+                if (user?.isLoggedIn!!) {
+                    user?.logOutAsync {
                         if (it.isSuccess) {
                             Log.v("Logout", "Logout Succesull")
                             val intent = Intent(this, MainActivity::class.java)
@@ -473,6 +454,23 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
             return destination_calculated!!
     }
 
+    private fun changeMealName(view: View) {
+        when (view.getId()) {
+            R.id.breakfast_button -> {
+                Variables.meal_name = "breakfast"
+            }
+            R.id.lunchtime_button -> {
+                Variables.meal_name = "lunchtime"
+            }
+            R.id.snacks_button -> {
+                Variables.meal_name = "snacks"
+            }
+            R.id.dinner_button -> {
+                Variables.meal_name = "dinner"
+            }
+        }
+    }
+
     override fun applyDate(choosenDate: String) {
         date_btn?.text = choosenDate
         val parse_date_local = LocalDate.parse(date_btn?.text, DateTimeFormatter.ISO_DATE)
@@ -494,7 +492,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                 Log.v("Success", "Succesfully get data from db")
             }else{
                 val day_data = it.createObject(days_value::class.java, ObjectId())
-                day_data.owner_id = Variables.app?.currentUser()?.id
+                day_data.owner_id = user?.id
                 day_data.actual_calory = 0
                 day_data.actual_carbohydrates = 0
                 day_data.actual_fats = 0

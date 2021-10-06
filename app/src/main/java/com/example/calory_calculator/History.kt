@@ -18,13 +18,12 @@ import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
 import java.time.LocalDateTime
-import java.util.*
 
 
 class History : AppCompatActivity(), HistoryAdapter.OnItemClickListener {
-    val user = Variables.app?.currentUser()
+    val user = app.currentUser()
     val config = SyncConfiguration
-            .Builder(user, Variables.app?.currentUser()?.id)
+            .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()

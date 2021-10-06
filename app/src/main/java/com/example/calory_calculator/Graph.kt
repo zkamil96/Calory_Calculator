@@ -1,7 +1,6 @@
 package com.example.calory_calculator
 
 import android.content.Intent
-import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
@@ -22,9 +21,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Graph : AppCompatActivity() {
-    val user = Variables.app?.currentUser()
+    val user = app.currentUser()
     val config = SyncConfiguration
-        .Builder(user, Variables.app?.currentUser()?.id)
+        .Builder(user, app.currentUser()?.id)
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
         .build()

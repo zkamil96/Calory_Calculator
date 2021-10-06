@@ -4,20 +4,13 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.toxicbakery.bcrypt.Bcrypt
-import io.realm.Realm
-import io.realm.mongodb.App
-import io.realm.mongodb.AppConfiguration
-import okio.HashingSink.sha512
 import java.util.regex.Pattern
 
 class Register : AppCompatActivity() {
@@ -98,7 +91,7 @@ class Register : AppCompatActivity() {
             if(good_email != null && hash_password != null){
                 pb.visibility = View.VISIBLE
                 register_user.visibility = View.INVISIBLE
-                Variables.app?.emailPassword?.registerUserAsync(good_email, hash_password){
+                app.emailPassword?.registerUserAsync(good_email, hash_password){
                     if (it.isSuccess) {
                         Toast.makeText(this," Successful Registration", Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, ConfirmAccount::class.java)
@@ -119,7 +112,7 @@ class Register : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(Variables?.app?.currentUser() != null) {
+        if(app.currentUser() != null) {
             val intent = Intent(this, Statistics::class.java)
             startActivity(intent)
         }

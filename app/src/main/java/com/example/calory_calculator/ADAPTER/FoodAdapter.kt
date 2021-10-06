@@ -1,6 +1,5 @@
 package com.example.calory_calculator.ADAPTER
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,20 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.calory_calculator.MODELS.*
 import com.example.calory_calculator.R
 import com.example.calory_calculator.Variables
+import com.example.calory_calculator.app
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
-import java.time.LocalDate
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class FoodAdapter (
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<FoodAdapter.MyViewHolder>(){
-    val user = Variables.app?.currentUser()
+    val user = app.currentUser()
     val config = SyncConfiguration
-            .Builder(user, Variables.app?.currentUser()?.id)
+            .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
