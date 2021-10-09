@@ -10,6 +10,7 @@ import com.example.calory_calculator.MODELS.*
 import com.example.calory_calculator.R
 import com.example.calory_calculator.Variables
 import com.example.calory_calculator.app
+import com.example.calory_calculator.realm
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
@@ -19,13 +20,13 @@ import java.util.*
 class FoodAdapter (
     private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<FoodAdapter.MyViewHolder>(){
-    val user = app.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
             .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
     private var myList = emptyList<days_value_breakfast>()
     private var myList2 = emptyList<days_value_lunchtime>()
     private var myList3 = emptyList<days_value_snacks>()
@@ -62,7 +63,7 @@ class FoodAdapter (
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
-                realm.executeTransaction {
+                realm?.executeTransaction {
                     var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
                     if(dataAboutProducts != null){
                         if(dataAboutProducts.breakfast.isNotEmpty()){
@@ -79,7 +80,7 @@ class FoodAdapter (
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList2[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList2[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
-                realm.executeTransaction {
+                realm?.executeTransaction {
                     var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
                     if(dataAboutProducts != null){
                         if(dataAboutProducts.lunchtime.isNotEmpty()){
@@ -96,7 +97,7 @@ class FoodAdapter (
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList3[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList3[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
-                realm.executeTransaction {
+                realm?.executeTransaction {
                     var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
                     if(dataAboutProducts != null){
                         if(dataAboutProducts.snacks.isNotEmpty()){
@@ -113,7 +114,7 @@ class FoodAdapter (
             holder.carbohydrates_recycler?.text = "Carbohydrates: " + myList4[position].carbohydrates.toString()
             holder.proteins_recycler?.text = "Proteins: " + myList4[position].proteins.toString()
             holder.button_recycler.setOnClickListener {
-                realm.executeTransaction {
+                realm?.executeTransaction {
                     var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
                     if(dataAboutProducts != null){
                         if(dataAboutProducts.dinner.isNotEmpty()){

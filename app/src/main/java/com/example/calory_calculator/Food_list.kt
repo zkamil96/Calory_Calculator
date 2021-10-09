@@ -18,13 +18,13 @@ import java.util.*
 class Food_list : AppCompatActivity(), FoodAdapter.OnItemClickListener {
     var food_list_name:TextView? = null
     var food_list_btn:ImageButton? = null
-    val user = app.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
             .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
 
     var actual_date = Variables.choosen_date
     var parse_date = Date.from(actual_date.atStartOfDay(ZoneId.systemDefault()).toInstant())
@@ -47,7 +47,7 @@ class Food_list : AppCompatActivity(), FoodAdapter.OnItemClickListener {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
 
-        realm.executeTransaction {
+        realm?.executeTransaction {
             val dataFromProfile = it.where<days_value>().equalTo("date", parse_date).findFirst()
             var breakfast_list_temp = emptyList<days_value_breakfast>()
             var lunchtime_list_temp = emptyList<days_value_lunchtime>()

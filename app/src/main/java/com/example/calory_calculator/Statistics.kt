@@ -21,6 +21,7 @@ import com.example.calory_calculator.MODELS.calory_value
 import com.example.calory_calculator.MODELS.days_value
 import io.realm.Realm
 import io.realm.kotlin.where
+import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import org.bson.types.ObjectId
 import java.time.LocalDate
@@ -28,16 +29,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
 class Statistics : AppCompatActivity(), ChooseDateInterface{
-    val user = app.currentUser()
-    val config = SyncConfiguration
-            .Builder(user, user?.id)
-            .allowQueriesOnUiThread(true)
-            .allowWritesOnUiThread(true)
-            .build()
-    var realm : Realm = Realm.getInstance(config)
-
     var calculated_calory:Double? = 0.0
     var calculated_fats:Double? = 0.0
     var calculated_carbohydrates:Double? = 0.0
@@ -80,14 +72,21 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_statistics)
+        user = app.currentUser()!!
+        val config = SyncConfiguration
+                .Builder(user, user?.id)
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build()
+        realm = Realm.getInstance(config)
             if(!isWifiConnected(applicationContext)){
                 val intent = Intent(this, NoNetworkConnection::class.java)
                 startActivity(intent)
             }
 
         Variables.fav_or_not = false
-        if(!realm.isAutoRefresh){
-            realm.refresh()
+        if(!realm?.isAutoRefresh!!){
+            realm?.refresh()
         }
 
         water_layout = findViewById(R.id.water_cups_layout)
@@ -124,8 +123,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         snacks_btn?.setOnClickListener(listener)
         dinner_btn?.setOnClickListener(listener)
 
-
-            realm.executeTransaction{
+            realm?.executeTransaction{
                 val dataFromProfile = it.where<calory_value>().equalTo("owner_id", user?.id).findFirst()
                 if(dataFromProfile != null) {
                     gender_value = dataFromProfile.gender
@@ -234,7 +232,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     if(it.id == size - 1){
                         glassFillStart?.start()
                         actual_cups_of_water++
-                        realm.executeTransaction {
+                        realm?.executeTransaction {
                             var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
                             if(dataAboutProducts != null){
                                 dataAboutProducts.cups_of_water = actual_cups_of_water
@@ -251,7 +249,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                         }
                         glassFillStart?.start()
                         actual_cups_of_water = it.id.toLong()
-                        realm.executeTransaction {
+                        realm?.executeTransaction {
                             var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
                             if(dataAboutProducts != null){
                                 dataAboutProducts.cups_of_water = actual_cups_of_water
@@ -313,16 +311,11 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
 
     override fun onDestroy() {
         super.onDestroy()
-        realm.close()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-
+        realm?.close()
     }
 
     private fun showActualDataFromDB() {
-            realm.executeTransaction {
+            realm?.executeTransaction{
                 var dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
                 if (dataAboutProducts != null) {
                     if (dataAboutProducts.breakfast.size > 0)
@@ -481,7 +474,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
         actual_fats = 0
         actual_carbohydrates = 0
         actual_proteins = 0
-        realm.executeTransaction {
+        realm?.executeTransaction{
             val dataAboutProducts = it.where<days_value>().equalTo("date", parse_date).findFirst()
             if(dataAboutProducts != null){
                 actual_cups_of_water = dataAboutProducts.cups_of_water!!

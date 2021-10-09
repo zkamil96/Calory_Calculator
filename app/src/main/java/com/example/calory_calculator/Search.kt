@@ -27,13 +27,13 @@ import java.time.ZoneId
 import java.util.*
 
 class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
-    val user = app.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
         .Builder(user, app.currentUser()?.id)
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
         .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
     var search_value_button : ImageButton ? = null
 
     override fun onCreate(savedInstanceState: Bundle?){

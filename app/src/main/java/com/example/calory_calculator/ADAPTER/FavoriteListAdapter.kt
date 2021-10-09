@@ -10,6 +10,7 @@ import com.example.calory_calculator.MODELS.favorite_list_value
 import com.example.calory_calculator.R
 import com.example.calory_calculator.Variables
 import com.example.calory_calculator.app
+import com.example.calory_calculator.realm
 import io.realm.Realm
 import io.realm.kotlin.where
 import io.realm.mongodb.sync.SyncConfiguration
@@ -17,13 +18,13 @@ import io.realm.mongodb.sync.SyncConfiguration
 class FavoriteListAdapter(
         private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<FavoriteListAdapter.MyViewHolder>(){
-    val user = app.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
             .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
     private var myList = emptyList<favorite_list_value>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.row_favorite_product, parent, false)
@@ -37,7 +38,7 @@ class FavoriteListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.textView?.text = myList[position].name
         holder.imageButton.setOnClickListener {
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val product = it.where<favorite_list_value>().equalTo("_id", myList[position]._id).findFirst()
                 product?.deleteFromRealm()
             }

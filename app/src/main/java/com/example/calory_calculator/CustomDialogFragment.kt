@@ -26,13 +26,13 @@ import java.time.ZoneId
 import java.util.*
 
 class CustomDialogFragment: DialogFragment() {
-    val user = app.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
             .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
     var id_values:Int? = null
     var name_values:String? = null
     var calory_amount:String? = "0.0"
@@ -97,7 +97,7 @@ class CustomDialogFragment: DialogFragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
-        realm.executeTransaction {
+        realm?.executeTransaction {
                 val history_val = it.createObject(history_value::class.java, ObjectId())
                 history_val.owner_id = app.currentUser()?.id
                 history_val.product_id = id_values?.toLong()
@@ -124,7 +124,7 @@ class CustomDialogFragment: DialogFragment() {
         }
 
         add_btn.setOnClickListener{
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
                 when {
                     meal_choice.selectedItemPosition == 0 -> {
@@ -229,7 +229,7 @@ class CustomDialogFragment: DialogFragment() {
         }
         add_favorite_btn.setOnClickListener {
             var dontadd:Boolean = false
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val favorite_products = it.where<favorite_list_value>().findAll()
                 for(prod in favorite_products) {
                     if (prod.name == dialog_product_name.text.toString()) {

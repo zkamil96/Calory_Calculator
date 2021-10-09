@@ -11,9 +11,11 @@ import android.view.View
 import android.widget.*
 import io.realm.Realm
 import io.realm.mongodb.Credentials
+import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import java.util.regex.Pattern
-
+/*lateinit var user: User
+lateinit var realm: Realm*/
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,14 +90,16 @@ class Login : AppCompatActivity() {
                 )
                 app.loginAsync(emailPasswordCredentials) {
                     if (it.isSuccess) {
-                        val user = app.currentUser()
+                        if(realm == null){
+                        user = app.currentUser()!!
                         val config = SyncConfiguration
-                                .Builder(user, app.currentUser()?.id)
+                                .Builder(user, user?.id)
                                 .allowQueriesOnUiThread(true)
                                 .allowWritesOnUiThread(true)
                                 .build()
-                        var realm : Realm = Realm.getInstance(config)
-                        realm.refresh()
+                        realm = Realm.getInstance(config)
+                        }
+                        realm?.refresh()
                                 val intent = Intent(this, Statistics::class.java)
                                 startActivity(intent)
                                 Thread.sleep(3000)

@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.calory_calculator.MODELS.Nutrient
 import com.example.calory_calculator.MODELS.days_value
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
@@ -21,13 +22,13 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Graph : AppCompatActivity() {
-    val user = app.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
         .Builder(user, app.currentUser()?.id)
         .allowQueriesOnUiThread(true)
         .allowWritesOnUiThread(true)
         .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_graph)
@@ -78,7 +79,7 @@ class Graph : AppCompatActivity() {
             graph_data_list.add(Graphdata(it, 0))
         }
 
-        realm.executeTransaction {
+        realm?.executeTransaction {
             val dates = it.where<days_value>().findAll()
             if (!dates.isEmpty()) {
                 var sorted_dates = dates.sort("date")
@@ -144,7 +145,7 @@ class Graph : AppCompatActivity() {
                 graph_data_list.add(Graphdata(it, 0))
             }
 
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val dates = it.where<days_value>().findAll()
                 if (!dates.isEmpty()) {
                     var sorted_dates = dates.sort("date")
@@ -213,7 +214,7 @@ class Graph : AppCompatActivity() {
                 graph_data_list.add(Graphdata(it, 0))
             }
 
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val dates = it.where<days_value>().findAll()
                 if (!dates.isEmpty()) {
                     var sorted_dates = dates.sort("date")
@@ -289,3 +290,4 @@ class Graph : AppCompatActivity() {
                 .toLocalDate()
     }
 }
+

@@ -16,13 +16,13 @@ import io.realm.mongodb.sync.SyncConfiguration
 import java.time.LocalDateTime
 
 class Favorite_products : AppCompatActivity(), FavoriteListAdapter.OnItemClickListener {
-    val user = app.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
             .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_products)
@@ -37,7 +37,7 @@ class Favorite_products : AppCompatActivity(), FavoriteListAdapter.OnItemClickLi
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
         Handler(Looper.getMainLooper()).post {
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val dataFromProfile = it.where<favorite_list_value>().findAll()
                 if (dataFromProfile != null) {
                     adapter.setData(dataFromProfile)
