@@ -43,6 +43,7 @@ class Search : AppCompatActivity(), MyAdapter.OnItemClickListener {
             val intent = Intent(this, NoNetworkConnection::class.java)
             startActivity(intent)
         }
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         Variables.fav_or_not = false
         var adapter = MyAdapter(this)

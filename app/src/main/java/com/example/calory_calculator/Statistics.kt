@@ -132,7 +132,7 @@ class Statistics : AppCompatActivity(), ChooseDateInterface{
                     age_value = dataFromProfile.age.toString()
                     physical_activity_value = dataFromProfile.physical_activity
                     destination_value = dataFromProfile.destination
-                    Log.v("Success", "successfully found a document")
+                    Log.v("Success", "successfuly found a document")
                     if(gender_value != null && growth_value != null && weight_value != null && age_value != null && physical_activity_value != null && destination_value != null){
                         if(gender_value == "Male"){
                             ppm_value =  (9.99 * weight_value!!.toDouble()) + (6.25 * growth_value!!.toDouble()) - (4.92 * age_value!!.toDouble()) + 5
