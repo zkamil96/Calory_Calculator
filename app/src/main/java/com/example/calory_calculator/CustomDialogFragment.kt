@@ -1,7 +1,6 @@
 package com.example.calory_calculator
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,9 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.text.isDigitsOnly
-import androidx.core.view.get
-import androidx.core.view.isGone
 import androidx.fragment.app.DialogFragment
 import com.example.calory_calculator.API.ApiService
 import com.example.calory_calculator.MODELS.*
@@ -26,20 +22,17 @@ import org.bson.types.ObjectId
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
 
 class CustomDialogFragment: DialogFragment() {
-    val user = Variables.app?.currentUser()
+/*    val user = app.currentUser()
     val config = SyncConfiguration
-            .Builder(user, Variables.app?.currentUser()?.id)
+            .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
-    var realm : Realm = Realm.getInstance(config)
+    var realm : Realm = Realm.getInstance(config)*/
     var id_values:Int? = null
     var name_values:String? = null
     var calory_amount:String? = "0.0"
@@ -104,9 +97,9 @@ class CustomDialogFragment: DialogFragment() {
             override fun afterTextChanged(s: Editable?) {
             }
         })
-        realm.executeTransaction {
+        realm?.executeTransaction {
                 val history_val = it.createObject(history_value::class.java, ObjectId())
-                history_val.owner_id = Variables.app?.currentUser()?.id
+                history_val.owner_id = app.currentUser()?.id
                 history_val.product_id = id_values?.toLong()
                 history_val.amount = dialog_amount.text.toString().toDouble()
                 history_val.name = dialog_product_name.text.toString()
@@ -131,7 +124,7 @@ class CustomDialogFragment: DialogFragment() {
         }
 
         add_btn.setOnClickListener{
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val dataFromFood = it.where<days_value>().equalTo("date", parse_date).findFirst()
                 when {
                     meal_choice.selectedItemPosition == 0 -> {
@@ -236,7 +229,7 @@ class CustomDialogFragment: DialogFragment() {
         }
         add_favorite_btn.setOnClickListener {
             var dontadd:Boolean = false
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val favorite_products = it.where<favorite_list_value>().findAll()
                 for(prod in favorite_products) {
                     if (prod.name == dialog_product_name.text.toString()) {
@@ -247,7 +240,7 @@ class CustomDialogFragment: DialogFragment() {
                 }
                 if(!dontadd){
                     val favorite_products_val = it.createObject(favorite_list_value::class.java, ObjectId())
-                    favorite_products_val.owner_id = Variables.app?.currentUser()?.id
+                    favorite_products_val.owner_id = app.currentUser()?.id
                     favorite_products_val.product_id = id_values?.toLong()
                     favorite_products_val.amount = dialog_amount.text.toString().toDouble()
                     favorite_products_val.name = dialog_product_name.text.toString()

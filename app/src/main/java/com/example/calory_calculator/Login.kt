@@ -1,6 +1,5 @@
 package com.example.calory_calculator
 
-import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,22 +10,12 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 import io.realm.Realm
-import io.realm.kotlin.syncSession
-import io.realm.mongodb.App
-import io.realm.mongodb.AppConfiguration
 import io.realm.mongodb.Credentials
 import io.realm.mongodb.User
-import io.realm.mongodb.mongo.MongoClient
-import io.realm.mongodb.mongo.MongoCollection
-import io.realm.mongodb.mongo.MongoDatabase
 import io.realm.mongodb.sync.SyncConfiguration
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import org.bson.Document
 import java.util.regex.Pattern
-import kotlin.concurrent.thread
-
+/*lateinit var user: User
+lateinit var realm: Realm*/
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,16 +88,18 @@ class Login : AppCompatActivity() {
                     good_email,
                     good_password
                 )
-                Variables.app?.loginAsync(emailPasswordCredentials) {
+                app.loginAsync(emailPasswordCredentials) {
                     if (it.isSuccess) {
-                        val user = Variables.app?.currentUser()
+                        if(realm == null){
+                        user = app.currentUser()!!
                         val config = SyncConfiguration
-                                .Builder(user, Variables.app?.currentUser()?.id)
+                                .Builder(user, user?.id)
                                 .allowQueriesOnUiThread(true)
                                 .allowWritesOnUiThread(true)
                                 .build()
-                        var realm : Realm = Realm.getInstance(config)
-                        realm.refresh()
+                        realm = Realm.getInstance(config)
+                        }
+                        realm?.refresh()
                                 val intent = Intent(this, Statistics::class.java)
                                 startActivity(intent)
                                 Thread.sleep(3000)
@@ -133,7 +124,7 @@ class Login : AppCompatActivity() {
     }
     override fun onResume() {
         super.onResume()
-        if(Variables?.app?.currentUser() != null) {
+        if(app.currentUser() != null) {
             val intent = Intent(this, Statistics::class.java)
             startActivity(intent)
         }

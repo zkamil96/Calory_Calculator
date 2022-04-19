@@ -5,29 +5,23 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.example.calory_calculator.MODELS.calory_value
-import io.realm.ObjectChangeSet
 import io.realm.Realm
 import io.realm.kotlin.where
-import io.realm.mongodb.mongo.MongoClient
-import io.realm.mongodb.mongo.MongoCollection
-import io.realm.mongodb.mongo.MongoDatabase
 import io.realm.mongodb.sync.SyncConfiguration
-import org.bson.Document
 import org.bson.types.ObjectId
 
 class Profile : AppCompatActivity() {
-        val user = Variables.app?.currentUser()
+/*        val user = app.currentUser()
         val config = SyncConfiguration
-            .Builder(user, Variables.app?.currentUser()?.id)
+            .Builder(user, app.currentUser()?.id)
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
-        var realm : Realm = Realm.getInstance(config)
+        var realm : Realm = Realm.getInstance(config)*/
         var gender_value: String? = null
         var growth_value: String? = null
         var weight_value: String? = null
@@ -43,8 +37,8 @@ class Profile : AppCompatActivity() {
             startActivity(intent)
         }
         Variables.clear_or_not = false
-        if(!realm.isAutoRefresh){
-            realm.refresh()
+        if(!realm?.isAutoRefresh!!){
+            realm?.refresh()
         }
         if (savedInstanceState == null) {
             supportFragmentManager
@@ -55,7 +49,7 @@ class Profile : AppCompatActivity() {
         var preferences = PreferenceManager.getDefaultSharedPreferences(this)
         var editor = preferences?.edit()
 
-            realm.executeTransaction {
+            realm?.executeTransaction {
                 val dataFromProfile = it.where<calory_value>().findFirst()
                 if(dataFromProfile != null){
                     editor?.putString("gender", dataFromProfile?.gender)
@@ -76,7 +70,7 @@ class Profile : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Variables.clear_or_not = true
-        realm.close()
+        realm?.close()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -93,14 +87,14 @@ class Profile : AppCompatActivity() {
                 if (!gender_value.isNullOrBlank() && !growth_value.isNullOrBlank() && !weight_value.isNullOrBlank()
                         && !age_value.isNullOrBlank() && !physical_activity_value.isNullOrBlank() && !destination_value.isNullOrBlank() && growth_value?.toInt() != 0 && weight_value?.toInt() != 0 && age_value?.toInt() != 0){
                     Handler(Looper.getMainLooper()).post {
-                        realm.executeTransaction {
+                        realm?.executeTransaction {
                             val dataFromProfile = it.where<calory_value>().findFirst()
                             if (dataFromProfile != null) {
                                 dataFromProfile.age = age_value?.toLong()
                                 dataFromProfile.destination = destination_value
                                 dataFromProfile.gender = gender_value
                                 dataFromProfile.growth = growth_value?.toLong()
-                                dataFromProfile.owner_id = Variables.app?.currentUser()?.id
+                                dataFromProfile.owner_id = app.currentUser()?.id
                                 dataFromProfile.physical_activity = physical_activity_value
                                 dataFromProfile.weight = weight_value?.toLong()
                                 Log.v("profile", "Successfully update data in realm")
@@ -110,7 +104,7 @@ class Profile : AppCompatActivity() {
                                 calory_val.destination = destination_value
                                 calory_val.gender = gender_value
                                 calory_val.growth = growth_value?.toLong()
-                                calory_val.owner_id = Variables.app?.currentUser()?.id
+                                calory_val.owner_id = app.currentUser()?.id
                                 calory_val.physical_activity = physical_activity_value
                                 calory_val.weight = weight_value?.toLong()
                                 Log.v("profile", "Successfully insert data in realm")

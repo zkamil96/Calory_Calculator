@@ -1,24 +1,20 @@
 package com.example.calory_calculator
 
 import android.app.Application
-import android.content.Context
-import android.net.ConnectivityManager
 import android.util.Log
-import android.widget.Toast
 import io.realm.Realm
-import io.realm.RealmConfiguration
 import io.realm.mongodb.App
 import io.realm.mongodb.AppConfiguration
-import io.realm.mongodb.sync.ClientResetRequiredError
-import io.realm.mongodb.sync.Sync
-import io.realm.mongodb.sync.SyncConfiguration
+import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncSession
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom.current
 
+lateinit var app: App
+var user: User? = null
+var realm: Realm? = null
 
-public class MyApplication : Application(){
-    private val app_Id:String = "calorie-calculator-svwsz"
+ class MyApplication : Application(){
+    private val app_Id: String = "calorie-calculator-svwsz"
 
     override fun onCreate() {
         super.onCreate()
@@ -30,7 +26,8 @@ public class MyApplication : Application(){
                     "Client Reset required for: ${session.configuration.serverUrl} for error: $error"
                 )
             }
-        Variables.app = App(
+
+        app = App(
             AppConfiguration.Builder(app_Id)
                 .defaultClientResetHandler(handler)
                 .build()

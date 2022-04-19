@@ -8,7 +8,7 @@ import io.realm.mongodb.User
 import java.time.LocalDate
 
 object Variables {
-    var app: App? = null
+    //var app: App? = null
     var clear_or_not : Boolean = true
     var choosen_date = LocalDate.now()
     var meal_name:String? = null
