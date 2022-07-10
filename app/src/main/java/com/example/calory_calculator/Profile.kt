@@ -18,6 +18,7 @@ class Profile : AppCompatActivity() {
 /*        val user = app.currentUser()
         val config = SyncConfiguration
             .Builder(user, app.currentUser()?.id)
+            
             .allowQueriesOnUiThread(true)
             .allowWritesOnUiThread(true)
             .build()
